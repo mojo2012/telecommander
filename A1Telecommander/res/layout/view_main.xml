@@ -3,8 +3,8 @@
     android:id="@+id/MainLayout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/background"
     android:gravity="center"
+    android:background="#FFF"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -29,18 +29,10 @@
         </ImageView>
 
         <Button
-            android:id="@+id/AlarmSystemButton"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:drawableTop="@drawable/alarm"
-            android:text="@string/AlarmSystemButtonText" />
-
-        <Button
             android:id="@+id/HeatingSystemButton"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="40dp"
             android:drawableTop="@drawable/heating"
             android:text="@string/HeatingButtonText" />
 
@@ -48,7 +40,7 @@
             android:id="@+id/RequestStatusUpdateButton"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:drawableTop="@drawable/misc_settings"
             android:text="@string/RequestStatus" />
     </LinearLayout>
@@ -67,10 +59,10 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:contentDescription="FTW Logo"
+            android:contentDescription="spOt Logo"
             android:maxHeight="30dp"
             android:scaleType="matrix"
-            android:src="@drawable/ftw_logo" />
+            android:src="@drawable/spot_logo" />
     </RelativeLayout>
 
 </RelativeLayout>
