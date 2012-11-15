@@ -1,4 +1,4 @@
-package at.ftw.a1telecommander.ui;
+package at.spot.a1telecommander.ui;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -9,25 +9,25 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-import at.ftw.a1telecommander.R;
-import at.ftw.a1telecommander.matikbox.IMatikBoxInterface;
-import at.ftw.a1telecommander.matikbox.IMatikBoxListener;
-import at.ftw.a1telecommander.matikbox.MatikBoxInterface;
-import at.ftw.a1telecommander.settings.A1TelecommanderSettings;
-import at.ftw.a1telecommander.ui.util.ViewHelper;
+import at.spot.a1telecommander.R;
+import at.spot.a1telecommander.matikbox.IMatikBoxInterface;
+import at.spot.a1telecommander.matikbox.IMatikBoxListener;
+import at.spot.a1telecommander.matikbox.MatikBoxInterface;
+import at.spot.a1telecommander.settings.A1TelecommanderSettings;
+import at.spot.a1telecommander.ui.util.ViewHelper;
 
 public class DoorSystem extends Activity implements IMatikBoxListener {
-	final static String TAG = "A1Telecommander/DoorSystem";
+	final static String		TAG				= "A1Telecommander/DoorSystem";
 
-	Button openDoorButton = null;
-	Button closeDoorButton = null;
-	ToggleButton doorSystemState = null;
+	Button					openDoorButton	= null;
+	Button					closeDoorButton	= null;
+	ToggleButton			doorSystemState	= null;
 
-	IMatikBoxInterface matikBox = MatikBoxInterface.getInstance();
+	IMatikBoxInterface		matikBox		= MatikBoxInterface.getInstance();
 
-	A1TelecommanderSettings settings = A1TelecommanderSettings.getInstance();
+	A1TelecommanderSettings	settings		= A1TelecommanderSettings.getInstance();
 
-	ProgressDialog progressDialog = null;
+	ProgressDialog			progressDialog	= null;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -58,7 +58,7 @@ public class DoorSystem extends Activity implements IMatikBoxListener {
 		matikBox.listenForStateChanges(this);
 		super.onResume();
 	}
-	
+
 	public void initGuiWidgets() {
 		openDoorButton = (Button) findViewById(R.id.OpenDoorButton);
 		closeDoorButton = (Button) findViewById(R.id.CloseDoorButton);
@@ -67,7 +67,7 @@ public class DoorSystem extends Activity implements IMatikBoxListener {
 		ViewHelper.setBackgroundColor(openDoorButton, A1TelecommanderSettings.actionButtonBackgroundColor);
 		ViewHelper.setBackgroundColor(closeDoorButton, A1TelecommanderSettings.actionButtonBackgroundColor);
 		ViewHelper.setBackgroundColor(doorSystemState, A1TelecommanderSettings.statusButtonBackgroundColor);
-		
+
 		openDoorButton.setTextColor(Color
 				.parseColor(A1TelecommanderSettings.buttonForegroundColor));
 		closeDoorButton.setTextColor(Color
@@ -119,7 +119,7 @@ public class DoorSystem extends Activity implements IMatikBoxListener {
 				message += "offen.";
 			else
 				message += "geschlossen.";
-			
+
 			if (doorStatus) {
 				doorSystemState.setTextOn(message);
 			} else {

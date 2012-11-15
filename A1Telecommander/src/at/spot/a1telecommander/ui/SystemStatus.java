@@ -1,4 +1,4 @@
-package at.ftw.a1telecommander.ui;
+package at.spot.a1telecommander.ui;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -10,28 +10,28 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ToggleButton;
-import at.ftw.a1telecommander.R;
-import at.ftw.a1telecommander.matikbox.IMatikBoxInterface;
-import at.ftw.a1telecommander.matikbox.IMatikBoxListener;
-import at.ftw.a1telecommander.matikbox.MatikBoxInterface;
-import at.ftw.a1telecommander.settings.A1TelecommanderSettings;
-import at.ftw.a1telecommander.ui.util.ViewHelper;
+import at.spot.a1telecommander.R;
+import at.spot.a1telecommander.matikbox.IMatikBoxInterface;
+import at.spot.a1telecommander.matikbox.IMatikBoxListener;
+import at.spot.a1telecommander.matikbox.MatikBoxInterface;
+import at.spot.a1telecommander.settings.A1TelecommanderSettings;
+import at.spot.a1telecommander.ui.util.ViewHelper;
 
 public class SystemStatus extends Activity implements IMatikBoxListener {
-	final static String TAG = "A1Telecommander/SystemStatus";
+	final static String	TAG							= "A1Telecommander/SystemStatus";
 
-	Button requestStatusUpdateButton = null;
-	TextView additionalStatusText = null;
+	Button				requestStatusUpdateButton	= null;
+	TextView			additionalStatusText		= null;
 
-	ToggleButton alarmSystemState = null;
-	ToggleButton heatingState = null;
+	ToggleButton		alarmSystemState			= null;
+	ToggleButton		heatingState				= null;
 
-	IMatikBoxInterface matikBox = MatikBoxInterface.getInstance();
+	IMatikBoxInterface	matikBox					= MatikBoxInterface.getInstance();
 
-	ProgressDialog progressDialog = null;
+	ProgressDialog		progressDialog				= null;
 
-	boolean[] requestSuccess = { false, false };
-	int requestIndex = 0;
+	boolean[]			requestSuccess				= { false, false };
+	int					requestIndex				= 0;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -75,7 +75,7 @@ public class SystemStatus extends Activity implements IMatikBoxListener {
 				A1TelecommanderSettings.statusButtonBackgroundColor);
 		ViewHelper.setBackgroundColor(heatingState,
 				A1TelecommanderSettings.statusButtonBackgroundColor);
-		
+
 		requestStatusUpdateButton.setTextColor(Color
 				.parseColor(A1TelecommanderSettings.buttonForegroundColor));
 
@@ -84,7 +84,6 @@ public class SystemStatus extends Activity implements IMatikBoxListener {
 		heatingState.setTextColor(Color
 				.parseColor(A1TelecommanderSettings.buttonForegroundColor));
 
-		
 		additionalStatusText = (TextView) findViewById(R.id.AdditionalStatusInfo);
 	}
 
@@ -105,7 +104,7 @@ public class SystemStatus extends Activity implements IMatikBoxListener {
 	}
 
 	void getStatus() {
-		//matikBox.listenForStateChanges(this);
+		// matikBox.listenForStateChanges(this);
 
 		matikBox.RequestAlarmSystemStatusUpdate();
 	}
@@ -116,17 +115,17 @@ public class SystemStatus extends Activity implements IMatikBoxListener {
 			String unknownText = "Status unbekannt";
 
 			switch (requestIndex) {
-			case 0:
-				alarmSystemState.setText("Alarmanlage: " + unknownText);
-				alarmSystemState.setChecked(false);
-				break;
-			case 1:
-				heatingState.setText("Heizung: " + unknownText);
-				heatingState.setChecked(false);
-				break;
-			case 2:
-				// stromausfall
-				break;
+				case 0:
+					alarmSystemState.setText("Alarmanlage: " + unknownText);
+					alarmSystemState.setChecked(false);
+					break;
+				case 1:
+					heatingState.setText("Heizung: " + unknownText);
+					heatingState.setChecked(false);
+					break;
+				case 2:
+					// stromausfall
+					break;
 			}
 
 			Log.v(TAG, "Status request failed!");
@@ -154,30 +153,30 @@ public class SystemStatus extends Activity implements IMatikBoxListener {
 				}
 
 				Log.v(TAG, "Received heating system state!");
-				//matikBox.RequestDoorAndSaunaSystemStatusUpdate();
-				//request stromausfall status
+				// matikBox.RequestDoorAndSaunaSystemStatusUpdate();
+				// request stromausfall status
 			}
 
-//			if (requestIndex == 2) {
-//				if (matikBox.isDoorOpen()) {
-//					doorSystemState.setTextOn("Offen");
-//					doorSystemState.setChecked(true);
-//				} else {
-//					doorSystemState.setTextOff("Geschlossen");
-//					doorSystemState.setChecked(false);
-//				}
-//
-//				if (matikBox.isSaunaRunning()) {
-//					saunaSystemState.setTextOn("Läuft");
-//					saunaSystemState.setChecked(true);
-//
-//				} else {
-//					saunaSystemState.setTextOff("Läuft nicht");
-//					saunaSystemState.setChecked(false);
-//				}
-//
-//				Log.v(TAG, "Received door and sauna system state!");
-//			}
+			// if (requestIndex == 2) {
+			// if (matikBox.isDoorOpen()) {
+			// doorSystemState.setTextOn("Offen");
+			// doorSystemState.setChecked(true);
+			// } else {
+			// doorSystemState.setTextOff("Geschlossen");
+			// doorSystemState.setChecked(false);
+			// }
+			//
+			// if (matikBox.isSaunaRunning()) {
+			// saunaSystemState.setTextOn("Läuft");
+			// saunaSystemState.setChecked(true);
+			//
+			// } else {
+			// saunaSystemState.setTextOff("Läuft nicht");
+			// saunaSystemState.setChecked(false);
+			// }
+			//
+			// Log.v(TAG, "Received door and sauna system state!");
+			// }
 		}
 
 		requestSuccess[requestIndex] = true;

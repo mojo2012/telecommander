@@ -1,4 +1,4 @@
-package at.ftw.a1telecommander.matikbox;
+package at.spot.a1telecommander.matikbox;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -10,9 +10,9 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
-import at.ftw.a1telecommander.settings.A1TelecommanderSettings;
-import at.ftw.a1telecommander.sms.ISmsMessageListener;
-import at.ftw.a1telecommander.sms.SmsTransceiver;
+import at.spot.a1telecommander.settings.A1TelecommanderSettings;
+import at.spot.a1telecommander.sms.ISmsMessageListener;
+import at.spot.a1telecommander.sms.SmsTransceiver;
 
 public class FakeMatikBoxInterface implements ISmsMessageListener, IMatikBoxInterface {
 	static FakeMatikBoxInterface instance = null;

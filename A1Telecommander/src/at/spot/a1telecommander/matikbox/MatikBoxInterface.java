@@ -1,4 +1,4 @@
-package at.ftw.a1telecommander.matikbox;
+package at.spot.a1telecommander.matikbox;
 
 import java.util.HashSet;
 import java.util.Timer;
@@ -6,9 +6,9 @@ import java.util.TimerTask;
 
 import android.os.Looper;
 import android.util.Log;
-import at.ftw.a1telecommander.settings.A1TelecommanderSettings;
-import at.ftw.a1telecommander.sms.ISmsMessageListener;
-import at.ftw.a1telecommander.sms.SmsTransceiver;
+import at.spot.a1telecommander.settings.A1TelecommanderSettings;
+import at.spot.a1telecommander.sms.ISmsMessageListener;
+import at.spot.a1telecommander.sms.SmsTransceiver;
 
 public class MatikBoxInterface implements ISmsMessageListener,
 		IMatikBoxInterface {

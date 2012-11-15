@@ -1,4 +1,4 @@
-package at.ftw.a1telecommander.ui;
+package at.spot.a1telecommander.ui;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -8,27 +8,27 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ToggleButton;
-import at.ftw.a1telecommander.R;
-import at.ftw.a1telecommander.matikbox.IMatikBoxInterface;
-import at.ftw.a1telecommander.matikbox.IMatikBoxListener;
-import at.ftw.a1telecommander.matikbox.MatikBoxInterface;
-import at.ftw.a1telecommander.settings.A1TelecommanderSettings;
-import at.ftw.a1telecommander.ui.util.ViewHelper;
+import at.spot.a1telecommander.R;
+import at.spot.a1telecommander.matikbox.IMatikBoxInterface;
+import at.spot.a1telecommander.matikbox.IMatikBoxListener;
+import at.spot.a1telecommander.matikbox.MatikBoxInterface;
+import at.spot.a1telecommander.settings.A1TelecommanderSettings;
+import at.spot.a1telecommander.ui.util.ViewHelper;
 
 public class AlarmSystem extends Activity implements IMatikBoxListener {
-	final static String TAG = "A1Telecommander/AlarmSystem";
+	final static String		TAG					= "A1Telecommander/AlarmSystem";
 
-	Button enableAlarmButton = null;
-	Button disableAlarmButton = null;
-	ToggleButton alarmSystemState = null;
+	Button					enableAlarmButton	= null;
+	Button					disableAlarmButton	= null;
+	ToggleButton			alarmSystemState	= null;
 
-	IMatikBoxInterface matikBox = MatikBoxInterface.getInstance();
+	IMatikBoxInterface		matikBox			= MatikBoxInterface.getInstance();
 
-	A1TelecommanderSettings settings = A1TelecommanderSettings.getInstance();
+	A1TelecommanderSettings	settings			= A1TelecommanderSettings.getInstance();
 
-	ProgressDialog progressDialog = null;
+	ProgressDialog			progressDialog		= null;
 
-	boolean alarmSet = false;
+	boolean					alarmSet			= false;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -64,11 +64,11 @@ public class AlarmSystem extends Activity implements IMatikBoxListener {
 		enableAlarmButton = (Button) findViewById(R.id.EnableAlarmButton);
 		disableAlarmButton = (Button) findViewById(R.id.DisableAlarmButton);
 		alarmSystemState = (ToggleButton) findViewById(R.id.AlarmSystemState);
-		
+
 		ViewHelper.setBackgroundColor(enableAlarmButton, A1TelecommanderSettings.actionButtonBackgroundColor);
 		ViewHelper.setBackgroundColor(disableAlarmButton, A1TelecommanderSettings.actionButtonBackgroundColor);
 		ViewHelper.setBackgroundColor(alarmSystemState, A1TelecommanderSettings.statusButtonBackgroundColor);
-		
+
 		enableAlarmButton.setTextColor(Color.parseColor(A1TelecommanderSettings.buttonForegroundColor));
 		disableAlarmButton.setTextColor(Color.parseColor(A1TelecommanderSettings.buttonForegroundColor));
 		alarmSystemState.setTextColor(Color.parseColor(A1TelecommanderSettings.buttonForegroundColor));
@@ -89,7 +89,7 @@ public class AlarmSystem extends Activity implements IMatikBoxListener {
 			}
 		});
 	}
-	
+
 	void setAlarm(boolean state) {
 		showProgressDialog();
 		alarmSet = true;
@@ -134,8 +134,9 @@ public class AlarmSystem extends Activity implements IMatikBoxListener {
 
 				alarmSystemState.setChecked(enabled);
 
-				//String message = "Alarm ist " + enabledText + " und " + runningText + ".";
-				//Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+				// String message = "Alarm ist " + enabledText + " und " +
+				// runningText + ".";
+				// Toast.makeText(this, message, Toast.LENGTH_LONG).show();
 			}
 		} else {
 			alarmSystemState.setTextOff("Status unbekannt");

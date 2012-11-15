@@ -1,4 +1,4 @@
-package at.ftw.a1telecommander.sms;
+package at.spot.a1telecommander.sms;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

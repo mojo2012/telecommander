@@ -1,4 +1,4 @@
-package at.ftw.a1telecommander.sms;
+package at.spot.a1telecommander.sms;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -12,18 +12,18 @@ import android.net.Uri;
 import android.os.Vibrator;
 import android.telephony.SmsMessage;
 import android.widget.Toast;
-import at.ftw.a1telecommander.R;
-import at.ftw.a1telecommander.matikbox.MatikBoxInterface;
-import at.ftw.a1telecommander.ui.AlarmView;
-import at.ftw.a1telecommander.ui.PowerOutageAlarmView;
+import at.spot.a1telecommander.R;
+import at.spot.a1telecommander.matikbox.MatikBoxInterface;
+import at.spot.a1telecommander.ui.AlarmView;
+import at.spot.a1telecommander.ui.PowerOutageAlarmView;
 
 public class SmsAlarm {
-	static final String TAG = "A1Telecommander/SmsAlarm";
+	static final String			TAG						= "A1Telecommander/SmsAlarm";
 
-	static MediaPlayer mMediaPlayer = null;
-	static NotificationManager mNotificationManager = null;
-	static Vibrator vibrator = null;
-	static Context mContext = null;
+	static MediaPlayer			mMediaPlayer			= null;
+	static NotificationManager	mNotificationManager	= null;
+	static Vibrator				vibrator				= null;
+	static Context				mContext				= null;
 
 	public static boolean checkIfIsAlarmSms(SmsMessage message, Context context) {
 		mContext = context;
@@ -54,8 +54,8 @@ public class SmsAlarm {
 	}
 
 	public static void startPowerOutageAlarm() {
-		//playAlarmNoise();
-		//vibrate();
+		// playAlarmNoise();
+		// vibrate();
 		showNotificationMessage("Achtung Stromausfall!");
 		showNotificationIcon("Stromausfall!");
 		showPowerOutageView();
@@ -117,7 +117,7 @@ public class SmsAlarm {
 				.getSystemService(Context.NOTIFICATION_SERVICE);
 
 		Notification notification = new Notification(R.drawable.control,
-				"A1 Matikbox Alarm", System.currentTimeMillis());
+														"A1 Matikbox Alarm", System.currentTimeMillis());
 
 		CharSequence contentTitle = "A1 Matikbox";
 

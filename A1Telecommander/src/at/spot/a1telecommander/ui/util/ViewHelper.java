@@ -1,4 +1,4 @@
-package at.ftw.a1telecommander.ui.util;
+package at.spot.a1telecommander.ui.util;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -10,11 +10,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
-import at.ftw.a1telecommander.R;
+import at.spot.a1telecommander.R;
 
 public class ViewHelper {
-	final static String TAG = "A1Telecommander/ViewHelper";
-	
+	final static String	TAG	= "A1Telecommander/ViewHelper";
+
 	public static void showDialogBox(String caption, String text,
 			Context context) {
 		// set up dialog

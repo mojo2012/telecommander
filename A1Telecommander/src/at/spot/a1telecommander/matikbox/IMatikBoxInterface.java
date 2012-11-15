@@ -1,4 +1,4 @@
-package at.ftw.a1telecommander.matikbox;
+package at.spot.a1telecommander.matikbox;
 
 public interface IMatikBoxInterface {
 
