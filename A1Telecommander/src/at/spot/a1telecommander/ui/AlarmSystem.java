@@ -9,20 +9,20 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ToggleButton;
 import at.spot.a1telecommander.R;
-import at.spot.a1telecommander.matikbox.IMatikBoxInterface;
-import at.spot.a1telecommander.matikbox.IMatikBoxListener;
-import at.spot.a1telecommander.matikbox.MatikBoxInterface;
+import at.spot.a1telecommander.pt32.IThermostatInterface;
+import at.spot.a1telecommander.pt32.IPT32BoxListener;
+import at.spot.a1telecommander.pt32.PT32Interface;
 import at.spot.a1telecommander.settings.A1TelecommanderSettings;
 import at.spot.a1telecommander.ui.util.ViewHelper;
 
-public class AlarmSystem extends Activity implements IMatikBoxListener {
+public class AlarmSystem extends Activity implements IPT32BoxListener {
 	final static String		TAG					= "A1Telecommander/AlarmSystem";
 
 	Button					enableAlarmButton	= null;
 	Button					disableAlarmButton	= null;
 	ToggleButton			alarmSystemState	= null;
 
-	IMatikBoxInterface		matikBox			= MatikBoxInterface.getInstance();
+	IThermostatInterface		matikBox			= PT32Interface.getInstance();
 
 	A1TelecommanderSettings	settings			= A1TelecommanderSettings.getInstance();
 
@@ -112,7 +112,7 @@ public class AlarmSystem extends Activity implements IMatikBoxListener {
 		if (progressDialog != null)
 			progressDialog.dismiss();
 
-		if (!IMatikBoxInterface.canceled) {
+		if (!IThermostatInterface.canceled) {
 			if (alarmSet) {
 				alarmSet = false;
 				boolean enabled = matikBox.isAlarmEnabled();

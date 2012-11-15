@@ -1,6 +1,6 @@
-package at.spot.a1telecommander.matikbox;
+package at.spot.a1telecommander.pt32;
 
-public interface IMatikBoxInterface {
+public interface IThermostatInterface {
 
 	public void RequestSystemStatusUpdate();
 
@@ -58,9 +58,9 @@ public interface IMatikBoxInterface {
 
 	public void messageReceived(String message);
 	
-	public void listenForStateChanges(IMatikBoxListener listener);
+	public void listenForStateChanges(IPT32BoxListener listener);
 
-	public void unlistenForStateChanges(IMatikBoxListener listener);
+	public void unlistenForStateChanges(IPT32BoxListener listener);
 	
 	public boolean canceled = false;
 	

@@ -1,4 +1,4 @@
-package at.spot.a1telecommander.matikbox;
+package at.spot.a1telecommander.pt32;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -14,7 +14,7 @@ import at.spot.a1telecommander.settings.A1TelecommanderSettings;
 import at.spot.a1telecommander.sms.ISmsMessageListener;
 import at.spot.a1telecommander.sms.SmsTransceiver;
 
-public class FakeMatikBoxInterface implements ISmsMessageListener, IMatikBoxInterface {
+public class FakeMatikBoxInterface implements ISmsMessageListener, IThermostatInterface {
 	static FakeMatikBoxInterface instance = null;
 	final static String TAG = "A1Telecommander/MatikBoxIntertface";
 
@@ -144,7 +144,7 @@ public class FakeMatikBoxInterface implements ISmsMessageListener, IMatikBoxInte
 		};
 	}
 
-	public static IMatikBoxInterface getInstance() {
+	public static IThermostatInterface getInstance() {
 		if (instance == null)
 			instance = new FakeMatikBoxInterface();
 
@@ -657,7 +657,7 @@ public class FakeMatikBoxInterface implements ISmsMessageListener, IMatikBoxInte
 		}
 
 		if (!pendingRequests) {
-			for (IMatikBoxListener listener : stateListeners) {
+			for (IPT32BoxListener listener : stateListeners) {
 				if (listener != null)
 					listener.onStateChanged();
 			}
@@ -684,13 +684,13 @@ public class FakeMatikBoxInterface implements ISmsMessageListener, IMatikBoxInte
 		return completed;
 	}
 
-	private final ArrayList<IMatikBoxListener> stateListeners = new ArrayList<IMatikBoxListener>();
+	private final ArrayList<IPT32BoxListener> stateListeners = new ArrayList<IPT32BoxListener>();
 
-	public void listenForStateChanges(IMatikBoxListener listener) {
+	public void listenForStateChanges(IPT32BoxListener listener) {
 		stateListeners.add(listener);
 	}
 	
-	public void unlistenForStateChanges(IMatikBoxListener listener) {
+	public void unlistenForStateChanges(IPT32BoxListener listener) {
 		stateListeners.remove(listener);
 	}
 
@@ -760,7 +760,7 @@ public class FakeMatikBoxInterface implements ISmsMessageListener, IMatikBoxInte
 							"A1 MatikBox antwortet nicht! Bitte versuchen Sie es sp�ter noch einmal.",
 							Toast.LENGTH_LONG).show();
 
-			for (IMatikBoxListener listener : stateListeners) {
+			for (IPT32BoxListener listener : stateListeners) {
 				if (listener != null)
 					listener.onStateChanged();
 			}

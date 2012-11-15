@@ -19,9 +19,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-import at.spot.a1telecommander.matikbox.MatikBoxInterface;
+import at.spot.a1telecommander.pt32.PT32Interface;
 import at.spot.a1telecommander.settings.A1TelecommanderSettings;
-import at.spot.a1telecommander.ui.AlarmSystemTabHost;
 import at.spot.a1telecommander.ui.DoorSystem;
 import at.spot.a1telecommander.ui.HeatingSystem;
 import at.spot.a1telecommander.ui.SystemStatus;
@@ -58,19 +57,11 @@ public class MainView extends Activity {
 
 		logo = (ImageView) findViewById(R.id.Logo);
 
-		alarmSystemButton.setTextColor(Color
-				.parseColor(A1TelecommanderSettings.buttonForegroundColor));
-		heatingSystemButton.setTextColor(Color
-				.parseColor(A1TelecommanderSettings.buttonForegroundColor));
-		requestStatusUpdateButton.setTextColor(Color
-				.parseColor(A1TelecommanderSettings.buttonForegroundColor));
+		heatingSystemButton.setTextColor(Color.parseColor(A1TelecommanderSettings.buttonForegroundColor));
+		requestStatusUpdateButton.setTextColor(Color.parseColor(A1TelecommanderSettings.buttonForegroundColor));
 
-		ViewHelper.setBackgroundColor(alarmSystemButton,
-				A1TelecommanderSettings.actionButtonBackgroundColor);
-		ViewHelper.setBackgroundColor(heatingSystemButton,
-				A1TelecommanderSettings.actionButtonBackgroundColor);
-		ViewHelper.setBackgroundColor(requestStatusUpdateButton,
-				A1TelecommanderSettings.statusButtonBackgroundColor);
+		ViewHelper.setBackgroundColor(heatingSystemButton, A1TelecommanderSettings.actionButtonBackgroundColor);
+		ViewHelper.setBackgroundColor(requestStatusUpdateButton, A1TelecommanderSettings.statusButtonBackgroundColor);
 	}
 
 	void startActivity(Class cls) {
@@ -79,20 +70,6 @@ public class MainView extends Activity {
 	}
 
 	public void initGuiWidgetEventMethods() {
-		alarmSystemButton.setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				startActivity(AlarmSystemTabHost.class);
-				return true;
-			}
-		});
-		alarmSystemButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				startActivity(AlarmSystemTabHost.class);
-			}
-		});
-
 		heatingSystemButton.setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
@@ -177,14 +154,12 @@ public class MainView extends Activity {
 				showEnterTelNumberDialog(settings.matikBoxTelephoneNumber);
 				break;
 			case R.id.toggle_fake_mode:
-				MatikBoxInterface.fakeMode = !MatikBoxInterface.fakeMode;
+				PT32Interface.fakeMode = !PT32Interface.fakeMode;
 
-				if (MatikBoxInterface.fakeMode) {
-					Toast.makeText(this, "Fake-Modus aktiviert", Toast.LENGTH_LONG)
-							.show();
+				if (PT32Interface.fakeMode) {
+					Toast.makeText(this, "Fake-Modus aktiviert", Toast.LENGTH_LONG).show();
 				} else {
-					Toast.makeText(this, "Fake-Modus deaktiviert",
-							Toast.LENGTH_LONG).show();
+					Toast.makeText(this, "Fake-Modus deaktiviert", Toast.LENGTH_LONG).show();
 				}
 
 				break;
@@ -194,21 +169,19 @@ public class MainView extends Activity {
 				android.os.Process.killProcess(android.os.Process.myPid());
 				break;
 			case R.id.info_dialog:
-				ViewHelper
-						.showDialogBox(
-								"A1 Telecommander",
-								"(c) 2011 FTW Forschungszentrum Telekommunikation Wien\n"
-										+ "\n\n"
-										+ "Autor:\nMatthias Fuchs\n(mfuchs@ftw.at)",
-								this);
+				ViewHelper.showDialogBox(
+						"A1 Telecommander",
+						"(c) 2011 FTW Forschungszentrum Telekommunikation Wien\n"
+								+ "\n\n"
+								+ "Autor:\nMatthias Fuchs\n(mfuchs@ftw.at)",
+						this);
 				break;
 		}
 		return true;
 	}
 
 	void showEnterTelNumberDialog(String defaultValue) {
-		showInputDialog("A1 Telecommander",
-				"Bitte Telefonnummer der MatikBox festlegen!", defaultValue);
+		showInputDialog("A1 Telecommander", "Bitte Telefonnummer der MatikBox festlegen!", defaultValue);
 	}
 
 	void showInputDialog(String title, String message, String defaultValue) {

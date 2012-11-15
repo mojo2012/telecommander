@@ -13,7 +13,7 @@ import android.os.Vibrator;
 import android.telephony.SmsMessage;
 import android.widget.Toast;
 import at.spot.a1telecommander.R;
-import at.spot.a1telecommander.matikbox.MatikBoxInterface;
+import at.spot.a1telecommander.pt32.PT32Interface;
 import at.spot.a1telecommander.ui.AlarmView;
 import at.spot.a1telecommander.ui.PowerOutageAlarmView;
 
@@ -30,15 +30,15 @@ public class SmsAlarm {
 
 		String text = message.getMessageBody().toString();
 
-		if (text.contains(MatikBoxInterface.ALARM_RUNNING)) {
+		if (text.contains(PT32Interface.ALARM_RUNNING)) {
 			startAlarm();
 			return true;
-		} else if (text.contains(MatikBoxInterface.ALARM_ENDED)) {
+		} else if (text.contains(PT32Interface.ALARM_ENDED)) {
 			cancelRunningAlarm();
-		} else if (text.contains(MatikBoxInterface.POWER_OUTAGE)) {
+		} else if (text.contains(PT32Interface.POWER_OUTAGE)) {
 			startPowerOutageAlarm();
 			return true;
-		} else if (text.contains(MatikBoxInterface.POWER_AVAILABLE)) {
+		} else if (text.contains(PT32Interface.POWER_AVAILABLE)) {
 			cancelRunningAlarm();
 		}
 

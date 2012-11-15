@@ -8,13 +8,13 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 import at.spot.a1telecommander.R;
-import at.spot.a1telecommander.matikbox.IMatikBoxInterface;
-import at.spot.a1telecommander.matikbox.IMatikBoxListener;
-import at.spot.a1telecommander.matikbox.MatikBoxInterface;
+import at.spot.a1telecommander.pt32.IThermostatInterface;
+import at.spot.a1telecommander.pt32.IPT32BoxListener;
+import at.spot.a1telecommander.pt32.PT32Interface;
 import at.spot.a1telecommander.settings.A1TelecommanderSettings;
 
 public class FireAndGasAlarmSystem extends Activity implements
-		IMatikBoxListener {
+		IPT32BoxListener {
 	final static String		TAG						= "A1Telecommander/FireAndGasAlarmSystem";
 
 	Button					enableFireAlarmButton	= null;
@@ -22,7 +22,7 @@ public class FireAndGasAlarmSystem extends Activity implements
 	Button					enableGasAlarmButton	= null;
 	Button					disableGasAlarmButton	= null;
 
-	IMatikBoxInterface		matikBox				= MatikBoxInterface.getInstance();
+	IThermostatInterface		matikBox				= PT32Interface.getInstance();
 
 	A1TelecommanderSettings	settings				= A1TelecommanderSettings.getInstance();
 
@@ -115,7 +115,7 @@ public class FireAndGasAlarmSystem extends Activity implements
 		if (progressDialog != null)
 			progressDialog.dismiss();
 
-		if (!IMatikBoxInterface.canceled) {
+		if (!IThermostatInterface.canceled) {
 			String message = "";
 
 			boolean gasAlarmEnabled = matikBox.isGasAlarmEnabled();
