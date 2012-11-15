@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string
+		name="app_name">A1 Telecommander</string>
+	<string
+		name="AlarmSystemButtonText">Alarmanalage</string>
+	<string
+		name="HeatingButtonText">Heizungsteuerung</string>
+	<string
+		name="DoorsButtonText">Türsteuerung</string>
+	<string
+		name="SaunaButtonText">Saunasteuerung</string>
+	<string
+		name="FireAndGasAlarmButtonText">Feuer- &amp; Gasalarm</string>
+	<string
+		name="RequestStatus">Status der A1 Matikbox abfragen</string>
+</resources>
