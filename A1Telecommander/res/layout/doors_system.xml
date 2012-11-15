@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="fill_parent"
+	android:layout_width="fill_parent"
+	android:id="@+id/DoorSystemLayout"
+	android:orientation="vertical"
+	android:gravity="center"
+	android:background="@drawable/background">
+	<LinearLayout
+		android:id="@+id/linearLayout1"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:gravity="center"
+		android:orientation="vertical"
+		android:layout_margin="20px">
+		<Button
+			android:id="@+id/OpenDoorButton"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:text="Tür öffnen"
+			android:layout_marginTop="80px" android:drawableTop="@drawable/lock_open"/>
+		<Button
+			android:id="@+id/CloseDoorButton"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:text="Tür schließen" android:layout_marginBottom="5px" android:drawableTop="@drawable/lock_close"/>
+		<ToggleButton
+			android:clickable="false"
+			android:minWidth="100px"
+			android:layout_height="wrap_content"
+			android:id="@+id/DoorSystemState"
+			android:layout_width="fill_parent"
+			android:layout_marginTop="30px" android:textOff="Status unbekannt" android:text="Status unbekannt" android:textOn="Tür offen"></ToggleButton>
+
+	</LinearLayout>
+</LinearLayout>

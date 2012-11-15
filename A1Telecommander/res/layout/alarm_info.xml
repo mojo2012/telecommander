@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="fill_parent"
+	android:layout_width="fill_parent"
+	android:id="@+id/HeatingSystemLayout"
+	android:orientation="vertical"
+	android:layout_gravity="bottom"
+	android:gravity="center"
+	android:background="@drawable/background">
+	<LinearLayout
+		android:id="@+id/linearLayout1"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:layout_margin="20dp"
+		android:gravity="center"
+		android:orientation="vertical">
+		<TextView
+			android:layout_gravity="center"
+			android:id="@+id/alarmInfoView"
+			android:gravity="center"
+			android:layout_width="wrap_content"
+			android:typeface="normal"
+			android:layout_height="wrap_content"
+			android:padding="7dp"
+			android:textSize="12pt"
+			android:text="Alarm wurde am %d, um %t ausgelöst!" />
+		<Button
+			android:id="@+id/cancelAlarmButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Hier tippen um Alarm abzustellen!"
+			android:drawablePadding="10dp"
+			android:drawableTop="@drawable/alarm_signal" />
+	</LinearLayout>
+
+</LinearLayout>
