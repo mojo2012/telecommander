@@ -12,20 +12,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import at.spot.a1telecommander.R;
-import at.spot.a1telecommander.matikbox.IMatikBoxInterface;
-import at.spot.a1telecommander.matikbox.IMatikBoxListener;
-import at.spot.a1telecommander.matikbox.MatikBoxInterface;
+import at.spot.a1telecommander.pt32.IThermostatInterface;
+import at.spot.a1telecommander.pt32.IPT32BoxListener;
+import at.spot.a1telecommander.pt32.PT32Interface;
 import at.spot.a1telecommander.settings.A1TelecommanderSettings;
 import at.spot.a1telecommander.ui.util.ViewHelper;
 
-public class AlarmSystemSettings extends Activity implements IMatikBoxListener {
+public class AlarmSystemSettings extends Activity implements IPT32BoxListener {
 	final static String		TAG					= "A1Telecommander/AlarmSystem";
 
 	Button					saveTelNumbers		= null;
 
 	EditText[]				alarmTelNoEditTexts	= null;
 
-	IMatikBoxInterface		matikBox			= MatikBoxInterface.getInstance();
+	IThermostatInterface		matikBox			= PT32Interface.getInstance();
 
 	A1TelecommanderSettings	settings			= A1TelecommanderSettings.getInstance();
 
@@ -168,7 +168,7 @@ public class AlarmSystemSettings extends Activity implements IMatikBoxListener {
 		if (progressDialog != null)
 			progressDialog.dismiss();
 
-		if (!IMatikBoxInterface.canceled) {
+		if (!IThermostatInterface.canceled) {
 
 			String message = "";
 

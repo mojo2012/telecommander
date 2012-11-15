@@ -1,4 +1,4 @@
-package at.spot.a1telecommander.matikbox;
+package at.spot.a1telecommander.pt32;
 
 import java.util.HashSet;
 import java.util.Timer;
@@ -10,9 +10,9 @@ import at.spot.a1telecommander.settings.A1TelecommanderSettings;
 import at.spot.a1telecommander.sms.ISmsMessageListener;
 import at.spot.a1telecommander.sms.SmsTransceiver;
 
-public class MatikBoxInterface implements ISmsMessageListener,
-		IMatikBoxInterface {
-	static MatikBoxInterface instance = null;
+public class PT32Interface implements ISmsMessageListener,
+		IThermostatInterface {
+	static PT32Interface instance = null;
 	static FakeMatikBoxInterface fakeInstance = null;
 	final static String TAG = "A1Telecommander/MatikBoxIntertface";
 
@@ -133,19 +133,19 @@ public class MatikBoxInterface implements ISmsMessageListener,
 	int timeout = 300000;
 	public boolean canceled = false;
 
-	private MatikBoxInterface() {
+	private PT32Interface() {
 		number = settings.matikBoxTelephoneNumber;
 		smsTransceiver = SmsTransceiver.getInstance();
 	}
 
 	public static boolean fakeMode = false;
 
-	public static IMatikBoxInterface getInstance() {
+	public static IThermostatInterface getInstance() {
 		if (fakeMode) {
 			return FakeMatikBoxInterface.getInstance();
 		} else {
 			if (instance == null)
-				instance = new MatikBoxInterface();
+				instance = new PT32Interface();
 
 			return instance;
 		}
@@ -571,7 +571,7 @@ public class MatikBoxInterface implements ISmsMessageListener,
 		}
 
 		if (!pendingRequests) {
-			for (IMatikBoxListener listener : stateListeners) {
+			for (IPT32BoxListener listener : stateListeners) {
 				if (listener != null)
 					listener.onStateChanged();
 			}
@@ -598,13 +598,13 @@ public class MatikBoxInterface implements ISmsMessageListener,
 		return completed;
 	}
 
-	private final HashSet<IMatikBoxListener> stateListeners = new HashSet<IMatikBoxListener>();
+	private final HashSet<IPT32BoxListener> stateListeners = new HashSet<IPT32BoxListener>();
 
-	public void listenForStateChanges(IMatikBoxListener listener) {
+	public void listenForStateChanges(IPT32BoxListener listener) {
 		stateListeners.add(listener);
 	}
 
-	public void unlistenForStateChanges(IMatikBoxListener listener) {
+	public void unlistenForStateChanges(IPT32BoxListener listener) {
 		stateListeners.remove(listener);
 	}
 
@@ -645,7 +645,7 @@ public class MatikBoxInterface implements ISmsMessageListener,
 			// "A1 MatikBox antwortet nicht! Bitte versuchen Sie es später noch einmal.",
 			// Toast.LENGTH_LONG).show();
 
-			for (IMatikBoxListener listener : stateListeners) {
+			for (IPT32BoxListener listener : stateListeners) {
 				if (listener != null)
 					listener.onStateChanged();
 			}

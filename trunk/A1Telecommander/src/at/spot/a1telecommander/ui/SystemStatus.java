@@ -11,13 +11,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 import at.spot.a1telecommander.R;
-import at.spot.a1telecommander.matikbox.IMatikBoxInterface;
-import at.spot.a1telecommander.matikbox.IMatikBoxListener;
-import at.spot.a1telecommander.matikbox.MatikBoxInterface;
+import at.spot.a1telecommander.pt32.IThermostatInterface;
+import at.spot.a1telecommander.pt32.IPT32BoxListener;
+import at.spot.a1telecommander.pt32.PT32Interface;
 import at.spot.a1telecommander.settings.A1TelecommanderSettings;
 import at.spot.a1telecommander.ui.util.ViewHelper;
 
-public class SystemStatus extends Activity implements IMatikBoxListener {
+public class SystemStatus extends Activity implements IPT32BoxListener {
 	final static String	TAG							= "A1Telecommander/SystemStatus";
 
 	Button				requestStatusUpdateButton	= null;
@@ -26,7 +26,7 @@ public class SystemStatus extends Activity implements IMatikBoxListener {
 	ToggleButton		alarmSystemState			= null;
 	ToggleButton		heatingState				= null;
 
-	IMatikBoxInterface	matikBox					= MatikBoxInterface.getInstance();
+	IThermostatInterface	matikBox					= PT32Interface.getInstance();
 
 	ProgressDialog		progressDialog				= null;
 
@@ -111,7 +111,7 @@ public class SystemStatus extends Activity implements IMatikBoxListener {
 
 	@Override
 	public void onStateChanged() {
-		if (IMatikBoxInterface.canceled) {
+		if (IThermostatInterface.canceled) {
 			String unknownText = "Status unbekannt";
 
 			switch (requestIndex) {
