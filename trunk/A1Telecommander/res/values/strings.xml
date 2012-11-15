@@ -14,5 +14,5 @@
 	<string
 		name="FireAndGasAlarmButtonText">Feuer- &amp; Gasalarm</string>
 	<string
-		name="RequestStatus">Status der A1 Matikbox abfragen</string>
+		name="RequestStatus">Status abfragen</string>
 </resources>
