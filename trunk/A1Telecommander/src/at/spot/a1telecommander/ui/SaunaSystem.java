@@ -1,4 +1,4 @@
-package at.ftw.a1telecommander.ui;
+package at.spot.a1telecommander.ui;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -7,23 +7,23 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
-import at.ftw.a1telecommander.R;
-import at.ftw.a1telecommander.matikbox.IMatikBoxInterface;
-import at.ftw.a1telecommander.matikbox.IMatikBoxListener;
-import at.ftw.a1telecommander.matikbox.MatikBoxInterface;
-import at.ftw.a1telecommander.settings.A1TelecommanderSettings;
+import at.spot.a1telecommander.R;
+import at.spot.a1telecommander.matikbox.IMatikBoxInterface;
+import at.spot.a1telecommander.matikbox.IMatikBoxListener;
+import at.spot.a1telecommander.matikbox.MatikBoxInterface;
+import at.spot.a1telecommander.settings.A1TelecommanderSettings;
 
 public class SaunaSystem extends Activity implements IMatikBoxListener {
-	final static String TAG = "A1Telecommander/SaunaSystem";
+	final static String		TAG					= "A1Telecommander/SaunaSystem";
 
-	Button startSaunaButton = null;
-	Button stopSaunaButton = null;
+	Button					startSaunaButton	= null;
+	Button					stopSaunaButton		= null;
 
-	IMatikBoxInterface matikBox = MatikBoxInterface.getInstance();
+	IMatikBoxInterface		matikBox			= MatikBoxInterface.getInstance();
 
-	A1TelecommanderSettings settings = A1TelecommanderSettings.getInstance();
+	A1TelecommanderSettings	settings			= A1TelecommanderSettings.getInstance();
 
-	ProgressDialog progressDialog = null;
+	ProgressDialog			progressDialog		= null;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -54,7 +54,7 @@ public class SaunaSystem extends Activity implements IMatikBoxListener {
 		matikBox.listenForStateChanges(this);
 		super.onResume();
 	}
-	
+
 	public void initGuiWidgets() {
 		startSaunaButton = (Button) findViewById(R.id.StartSaunaButton);
 		stopSaunaButton = (Button) findViewById(R.id.StopSaunaButton);

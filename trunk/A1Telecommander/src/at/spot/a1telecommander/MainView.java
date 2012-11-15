@@ -1,4 +1,4 @@
-package at.ftw.a1telecommander;
+package at.spot.a1telecommander;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -19,13 +19,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-import at.ftw.a1telecommander.matikbox.MatikBoxInterface;
-import at.ftw.a1telecommander.settings.A1TelecommanderSettings;
-import at.ftw.a1telecommander.ui.AlarmSystemTabHost;
-import at.ftw.a1telecommander.ui.DoorSystem;
-import at.ftw.a1telecommander.ui.HeatingSystem;
-import at.ftw.a1telecommander.ui.SystemStatus;
-import at.ftw.a1telecommander.ui.util.ViewHelper;
+import at.spot.a1telecommander.matikbox.MatikBoxInterface;
+import at.spot.a1telecommander.settings.A1TelecommanderSettings;
+import at.spot.a1telecommander.ui.AlarmSystemTabHost;
+import at.spot.a1telecommander.ui.DoorSystem;
+import at.spot.a1telecommander.ui.HeatingSystem;
+import at.spot.a1telecommander.ui.SystemStatus;
+import at.spot.a1telecommander.ui.util.ViewHelper;
 
 public class MainView extends Activity {
 	final static String		TAG							= "A1Telecommander/MainView";

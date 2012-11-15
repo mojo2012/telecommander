@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	package="at.ftw.a1telecommander"
+	package="at.spot.a1telecommander"
 	android:versionCode="1"
 	android:versionName="1.0">
 
@@ -10,7 +10,7 @@
 		android:debuggable="true"
 		android:icon="@drawable/control">
 		<activity
-			android:name="at.ftw.a1telecommander.MainView"
+			android:name="at.spot.a1telecommander.MainView"
 			android:label="@string/app_name"
 			android:screenOrientation="portrait">
 			<intent-filter>

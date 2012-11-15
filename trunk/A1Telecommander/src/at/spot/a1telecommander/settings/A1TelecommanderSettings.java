@@ -1,4 +1,4 @@
-package at.ftw.a1telecommander.settings;
+package at.spot.a1telecommander.settings;
 
 import android.content.Context;
 import android.content.SharedPreferences;

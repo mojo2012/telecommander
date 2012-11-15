@@ -1,4 +1,4 @@
-package at.ftw.a1telecommander.ui;
+package at.spot.a1telecommander.ui;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -9,12 +9,12 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import at.ftw.a1telecommander.R;
-import at.ftw.a1telecommander.matikbox.IMatikBoxInterface;
-import at.ftw.a1telecommander.matikbox.IMatikBoxListener;
-import at.ftw.a1telecommander.matikbox.MatikBoxInterface;
-import at.ftw.a1telecommander.settings.A1TelecommanderSettings;
-import at.ftw.a1telecommander.ui.util.ViewHelper;
+import at.spot.a1telecommander.R;
+import at.spot.a1telecommander.matikbox.IMatikBoxInterface;
+import at.spot.a1telecommander.matikbox.IMatikBoxListener;
+import at.spot.a1telecommander.matikbox.MatikBoxInterface;
+import at.spot.a1telecommander.settings.A1TelecommanderSettings;
+import at.spot.a1telecommander.ui.util.ViewHelper;
 
 public class HeatingSystem extends Activity implements IMatikBoxListener {
 	final static String TAG = "A1Telecommander/HeatingSystem";
