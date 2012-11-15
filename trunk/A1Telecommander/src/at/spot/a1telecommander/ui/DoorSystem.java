@@ -110,7 +110,7 @@ public class DoorSystem extends Activity implements IMatikBoxListener {
 		if (progressDialog != null)
 			progressDialog.dismiss();
 
-		if (!matikBox.canceled) {
+		if (!IMatikBoxInterface.canceled) {
 			String message = "Tür ist ";
 
 			boolean doorStatus = matikBox.isDoorOpen();
