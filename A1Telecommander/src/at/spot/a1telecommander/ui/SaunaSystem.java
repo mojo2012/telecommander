@@ -94,7 +94,7 @@ public class SaunaSystem extends Activity implements IMatikBoxListener {
 		if (progressDialog != null)
 			progressDialog.dismiss();
 
-		if (!matikBox.canceled) {
+		if (!IMatikBoxInterface.canceled) {
 			String message = "Sauna ist ";
 
 			boolean doorStatus = matikBox.isSaunaRunning();

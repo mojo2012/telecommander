@@ -115,7 +115,7 @@ public class FireAndGasAlarmSystem extends Activity implements
 		if (progressDialog != null)
 			progressDialog.dismiss();
 
-		if (!matikBox.canceled) {
+		if (!IMatikBoxInterface.canceled) {
 			String message = "";
 
 			boolean gasAlarmEnabled = matikBox.isGasAlarmEnabled();

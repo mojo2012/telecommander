@@ -17,22 +17,22 @@ import at.spot.a1telecommander.settings.A1TelecommanderSettings;
 import at.spot.a1telecommander.ui.util.ViewHelper;
 
 public class HeatingSystem extends Activity implements IMatikBoxListener {
-	final static String TAG = "A1Telecommander/HeatingSystem";
+	final static String		TAG						= "A1Telecommander/HeatingSystem";
 
-	final int MAX_VALUE = 45;
-	final int MIN_VALUE = 10;
+	final int				MAX_VALUE				= 45;
+	final int				MIN_VALUE				= 10;
 
-	Button startHeatingButton = null;
-	Button stopHeatingButton = null;
-	EditText heatingDegreesText = null;
-	Button decrementTemperature = null;
-	Button incrementTemperature = null;
+	Button					startHeatingButton		= null;
+	Button					stopHeatingButton		= null;
+	EditText				heatingDegreesText		= null;
+	Button					decrementTemperature	= null;
+	Button					incrementTemperature	= null;
 
-	IMatikBoxInterface matikBox = MatikBoxInterface.getInstance();
+	IMatikBoxInterface		matikBox				= MatikBoxInterface.getInstance();
 
-	A1TelecommanderSettings settings = A1TelecommanderSettings.getInstance();
+	A1TelecommanderSettings	settings				= A1TelecommanderSettings.getInstance();
 
-	ProgressDialog progressDialog = null;
+	ProgressDialog			progressDialog			= null;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -72,12 +72,12 @@ public class HeatingSystem extends Activity implements IMatikBoxListener {
 		incrementTemperature = (Button) findViewById(R.id.IncrementTemperature);
 
 		heatingDegreesText = (EditText) findViewById(R.id.HeatingDegrees);
-		
+
 		int degrees = matikBox.heatingDegrees();
-		
-		if (degrees ==-1)
-			degrees =21;
-		
+
+		if (degrees == -1)
+			degrees = 21;
+
 		heatingDegreesText.setText(Integer.toString(degrees));
 
 		heatingDegreesText.setEnabled(false);
@@ -177,7 +177,7 @@ public class HeatingSystem extends Activity implements IMatikBoxListener {
 		if (progressDialog != null)
 			progressDialog.dismiss();
 
-		if (!matikBox.canceled) {
+		if (!IMatikBoxInterface.canceled) {
 
 			String message = "Heizung ist mit ";
 

@@ -111,7 +111,7 @@ public class SystemStatus extends Activity implements IMatikBoxListener {
 
 	@Override
 	public void onStateChanged() {
-		if (matikBox.canceled) {
+		if (IMatikBoxInterface.canceled) {
 			String unknownText = "Status unbekannt";
 
 			switch (requestIndex) {
