@@ -11,33 +11,33 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 import at.spot.a1telecommander.R;
-import at.spot.a1telecommander.pt32.IThermostatInterface;
 import at.spot.a1telecommander.pt32.IPT32BoxListener;
+import at.spot.a1telecommander.pt32.IThermostatInterface;
 import at.spot.a1telecommander.pt32.PT32Interface;
 import at.spot.a1telecommander.settings.A1TelecommanderSettings;
 import at.spot.a1telecommander.ui.util.ViewHelper;
 
 public class SystemStatus extends Activity implements IPT32BoxListener {
-	final static String	TAG							= "A1Telecommander/SystemStatus";
+	final static String		TAG							= "A1Telecommander/SystemStatus";
 
-	Button				requestStatusUpdateButton	= null;
-	TextView			additionalStatusText		= null;
+	Button					requestStatusUpdateButton	= null;
+	TextView				additionalStatusText		= null;
 
-	ToggleButton		alarmSystemState			= null;
-	ToggleButton		heatingState				= null;
+	ToggleButton			alarmSystemState			= null;
+	ToggleButton			heatingState				= null;
 
 	IThermostatInterface	matikBox					= PT32Interface.getInstance();
 
-	ProgressDialog		progressDialog				= null;
+	ProgressDialog			progressDialog				= null;
 
-	boolean[]			requestSuccess				= { false, false };
-	int					requestIndex				= 0;
+	boolean[]				requestSuccess				= { false, false };
+	int						requestIndex				= 0;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.matixbox_status);
+		// setContentView(R.layout.matixbox_status);
 
 		initGuiWidgets();
 		initGuiWidgetEventMethods();
@@ -66,8 +66,7 @@ public class SystemStatus extends Activity implements IPT32BoxListener {
 	public void initGuiWidgets() {
 		requestStatusUpdateButton = (Button) findViewById(R.id.RequestStatusUpdateButton);
 
-		alarmSystemState = (ToggleButton) findViewById(R.id.AlarmSystemState);
-		heatingState = (ToggleButton) findViewById(R.id.HeatingState);
+		// heatingState = (ToggleButton) findViewById(R.id.HeatingState);
 
 		ViewHelper.setBackgroundColor(requestStatusUpdateButton,
 				A1TelecommanderSettings.actionButtonBackgroundColor);
@@ -84,7 +83,8 @@ public class SystemStatus extends Activity implements IPT32BoxListener {
 		heatingState.setTextColor(Color
 				.parseColor(A1TelecommanderSettings.buttonForegroundColor));
 
-		additionalStatusText = (TextView) findViewById(R.id.AdditionalStatusInfo);
+		// additionalStatusText = (TextView)
+		// findViewById(R.id.AdditionalStatusInfo);
 	}
 
 	public void initGuiWidgetEventMethods() {

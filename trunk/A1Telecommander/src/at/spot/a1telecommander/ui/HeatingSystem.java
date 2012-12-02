@@ -9,7 +9,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import at.spot.a1telecommander.R;
 import at.spot.a1telecommander.pt32.IPT32BoxListener;
 import at.spot.a1telecommander.pt32.IThermostatInterface;
 import at.spot.a1telecommander.pt32.PT32Interface;
@@ -38,7 +37,7 @@ public class HeatingSystem extends Activity implements IPT32BoxListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.view_heating_system);
+		// setContentView(R.layout.view_heating_system);
 
 		initGuiWidgets();
 		initGuiWidgetEventMethods();
@@ -65,13 +64,15 @@ public class HeatingSystem extends Activity implements IPT32BoxListener {
 	}
 
 	public void initGuiWidgets() {
-		startHeatingButton = (Button) findViewById(R.id.StartHeatingButton);
-		stopHeatingButton = (Button) findViewById(R.id.StopHeatingButton);
+		// startHeatingButton = (Button) findViewById(R.id.StartHeatingButton);
+		// stopHeatingButton = (Button) findViewById(R.id.StopHeatingButton);
 
-		decrementTemperature = (Button) findViewById(R.id.DecremtTemperature);
-		incrementTemperature = (Button) findViewById(R.id.IncrementTemperature);
+		// decrementTemperature = (Button)
+		// findViewById(R.id.DecremtTemperature);
+		// incrementTemperature = (Button)
+		// findViewById(R.id.IncrementTemperature);
 
-		heatingDegreesText = (EditText) findViewById(R.id.HeatingDegrees);
+		// heatingDegreesText = (EditText) findViewById(R.id.HeatingDegrees);
 
 		int degrees = matikBox.heatingDegrees();
 
