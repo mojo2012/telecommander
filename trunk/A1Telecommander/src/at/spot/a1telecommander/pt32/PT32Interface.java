@@ -1,6 +1,7 @@
 package at.spot.a1telecommander.pt32;
 
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -13,22 +14,25 @@ import at.spot.a1telecommander.sms.SmsTransceiver;
 public class PT32Interface implements ISmsMessageListener,
 		IThermostatInterface {
 
-	static PT32Interface	instance		= null;
-	final static String		TAG				= "A1Telecommander/PT32Intertface";
+	static PT32Interface	instance				= null;
+	final static String		TAG						= "A1Telecommander/PT32Intertface";
 
-	A1TelecommanderSettings	settings		= A1TelecommanderSettings.getInstance();
-	SmsTransceiver			smsTransceiver	= null;
-	String					number			= "";
+	A1TelecommanderSettings	settings				= A1TelecommanderSettings.getInstance();
+	SmsTransceiver			smsTransceiver			= null;
+	String					number					= "";
 
-	HeatingMode				heatingMode		= HeatingMode.Unknown;
-	int						heatingDegrees	= -1;
+	int						signalStrength			= -1;
+	boolean					isHeatingOn				= false;
+	HeatingMode				heatingMode				= HeatingMode.Unknown;
+	float					heatingActualDegrees	= -1;
+	float					heatingRequiredDegrees	= -1;
 
-	String					lastAnswer		= "";
+	String					lastAnswer				= "";
 
-	Timer					timer			= null;
-	boolean					canceledTimer	= false;
-	int						timeout			= 300000;
-	public boolean			canceled		= false;
+	Timer					timer					= null;
+	boolean					canceledTimer			= false;
+	int						timeout					= 300000;
+	public boolean			canceled				= false;
 
 	private PT32Interface() {
 		number = settings.telephoneNumber;
@@ -37,7 +41,7 @@ public class PT32Interface implements ISmsMessageListener,
 
 	public static boolean	fakeMode	= false;
 
-	public static IThermostatInterface getInstance() {
+	public static synchronized PT32Interface getInstance() {
 		if (instance == null)
 			instance = new PT32Interface();
 
@@ -53,19 +57,15 @@ public class PT32Interface implements ISmsMessageListener,
 	}
 
 	public void SetHeatingMode(String mode) {
-		// smsTransceiver.listenForMessage(this, number,
-		// HEATING_SYSTEM_MESSAGE_CONTAINS);
-		// smsTransceiver.sendShortMessage(number,
-		// HEATING_ON_MESSAGE.replace("%d%", mode));
+		smsTransceiver.listenForMessage(this, number);
+		smsTransceiver.sendShortMessage(number, mode);
 
 		startTimer();
 	}
 
 	public void SetHeatingTemperature(int degrees) {
-		// smsTransceiver.listenForMessage(this, number,
-		// HEATING_SYSTEM_MESSAGE_CONTAINS);
-		// smsTransceiver.sendShortMessage(number,
-		// HEATING_ON_MESSAGE.replace("%d%", degrees + ""));
+		smsTransceiver.listenForMessage(this, number);
+		smsTransceiver.sendShortMessage(number, "temp " + degrees);
 
 		startTimer();
 	}
@@ -74,24 +74,49 @@ public class PT32Interface implements ISmsMessageListener,
 	public void messageReceived(String message) {
 		Log.d(TAG, message);
 
-		// if (message.contains(HEATING_SYSTEM_MESSAGE_CONTAINS)) {
-		// String[] answer = message.split(" ");
-		//
-		// String value = answer[answer.length - 1];
-		//
-		// if (value.equals(HEATING_ON)) {
-		// heatingMode = true;
-		// heatingDegrees = Integer.parseInt(answer[answer.length - 3]);
-		// } else {
-		// heatingMode = false;
-		// heatingDegrees = -1;
-		// }
-		//
-		// settings.heatingOn = heatingMode;
-		// settings.heatingDegrees = heatingDegrees;
-		// } else {
-		// Log.i(TAG, "WARNING: unknown message=" + message);
-		// }
+		String[] parts = message.split(";");
+
+		int x = 0;
+
+		for (String p : parts) {
+			String[] tmp = p.split(":");
+
+			String key = "";
+			String value = "";
+
+			if (tmp.length == 2) {
+				key = tmp[0];
+				value = tmp[1];
+			} else {
+				key = "";
+				value = tmp[0];
+			}
+
+			try {
+				switch (x) {
+					case 0: // required temperature (float value)
+						heatingRequiredDegrees = Float.parseFloat(value);
+						break;
+					case 1: // Actual temperature (float value)
+						heatingActualDegrees = Float.parseFloat(value);
+						break;
+					case 2: // heating status (on, off)
+						isHeatingOn = value.toLowerCase(Locale.GERMAN).equals("on");
+						break;
+					case 3: // heating mode
+						heatingMode = HeatingMode.valueOf(value);
+						break;
+					case 4: // Signal strength (0=no signal; 1=weak; 5=good)
+						signalStrength = Integer.parseInt(value);
+						break;
+				}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				Log.i(TAG, "WARNING: could not parse message: message=" + message);
+			}
+		}
+
+		lastAnswer = message;
 
 		if (isFullUpdateComplete()) {
 			stopTimer();

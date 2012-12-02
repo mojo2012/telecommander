@@ -13,7 +13,7 @@ public class SmsTransceiver {
 	private SmsTransceiver() {
 	}
 
-	public static SmsTransceiver getInstance() {
+	public static synchronized SmsTransceiver getInstance() {
 		if (instance == null)
 			instance = new SmsTransceiver();
 
@@ -38,6 +38,12 @@ public class SmsTransceiver {
 
 	ArrayList<SmsMessageListenerEntry>	messageListeners	= new ArrayList<SmsMessageListenerEntry>();
 
+	public void listenForMessage(ISmsMessageListener listener, String number) {
+		SmsMessageListenerEntry listenerEntry = new SmsMessageListenerEntry(listener, number, null);
+
+		messageListeners.add(listenerEntry);
+	}
+
 	public void listenForMessage(ISmsMessageListener listener, String number, String messageContains) {
 		SmsMessageListenerEntry listenerEntry = new SmsMessageListenerEntry(listener, number, messageContains);
 
@@ -54,15 +60,20 @@ public class SmsTransceiver {
 
 		for (SmsMessageListenerEntry entry : messageListeners) {
 			if (sender.equals(entry.number))
-				if (text.contains(entry.messageContains)) {
-					ISmsMessageListener listener = entry.listener;
-
-					if (listener != null) {
-						listener.messageReceived(text);
-						unlistenForMessage(entry);
-					}
+				if (entry.messageContains == null | text.contains(entry.messageContains)) {
+					informListeners(entry, sender, text);
 					break;
 				}
 		}
 	}
+
+	private void informListeners(SmsMessageListenerEntry entry, String sender, String text) {
+		ISmsMessageListener listener = entry.listener;
+
+		if (listener != null) {
+			listener.messageReceived(text);
+			unlistenForMessage(entry);
+		}
+	}
+
 }
