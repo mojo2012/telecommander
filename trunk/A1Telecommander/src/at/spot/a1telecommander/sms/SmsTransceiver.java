@@ -7,9 +7,7 @@ import android.telephony.SmsMessage;
 
 public class SmsTransceiver {
 	final static String				TAG			= "A1Telecommander/SmsTransceiver";
-
 	static private SmsTransceiver	instance	= null;
-
 	SmsManager						sm			= SmsManager.getDefault();
 
 	private SmsTransceiver() {
