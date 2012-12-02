@@ -60,7 +60,7 @@ public class SmsTransceiver {
 
 		for (SmsMessageListenerEntry entry : messageListeners) {
 			if (sender.equals(entry.number))
-				if (entry.messageContains == null | text.contains(entry.messageContains)) {
+				if (entry.messageContains == null || text.contains(entry.messageContains)) {
 					informListeners(entry, sender, text);
 					break;
 				}

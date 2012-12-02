@@ -77,6 +77,10 @@ public class PT32Interface implements ISmsMessageListener,
 		for (String p : parts) {
 			String[] tmp = p.split(":");
 
+			if (tmp.length == 1) {
+				tmp = p.split(" ");
+			}
+
 			String key = "";
 			String value = "";
 
@@ -87,6 +91,8 @@ public class PT32Interface implements ISmsMessageListener,
 				key = "";
 				value = tmp[0];
 			}
+
+			x++;
 
 			try {
 				switch (x) {
