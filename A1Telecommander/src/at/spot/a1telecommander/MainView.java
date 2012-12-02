@@ -18,8 +18,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import at.spot.a1telecommander.settings.A1TelecommanderSettings;
-import at.spot.a1telecommander.ui.HeatingSystem;
-import at.spot.a1telecommander.ui.SystemStatus;
 import at.spot.a1telecommander.ui.util.ViewHelper;
 
 public class MainView extends Activity {
@@ -55,7 +53,7 @@ public class MainView extends Activity {
 		logo = (ImageView) findViewById(R.id.Logo);
 	}
 
-	void startActivity(Class cls) {
+	void startActivity(Class<? extends Activity> cls) {
 		Intent i = new Intent(MainView.this, cls);
 		startActivity(i);
 	}
@@ -64,28 +62,28 @@ public class MainView extends Activity {
 		heatingSetModeButton.setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				startActivity(HeatingSystem.class);
+				// startActivity(HeatingSystem.class);
 				return true;
 			}
 		});
 		heatingSetModeButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(HeatingSystem.class);
+				// startActivity(HeatingSystem.class);
 			}
 		});
 
 		requestStatusUpdateButton.setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				startActivity(SystemStatus.class);
+				// startActivity(SystemStatus.class);
 				return true;
 			}
 		});
 		requestStatusUpdateButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(SystemStatus.class);
+				// startActivity(SystemStatus.class);
 			}
 		});
 
