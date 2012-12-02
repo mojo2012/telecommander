@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
@@ -18,8 +17,6 @@ import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
-import at.spot.a1telecommander.pt32.PT32Interface;
 import at.spot.a1telecommander.settings.A1TelecommanderSettings;
 import at.spot.a1telecommander.ui.HeatingSystem;
 import at.spot.a1telecommander.ui.SystemStatus;
@@ -28,8 +25,8 @@ import at.spot.a1telecommander.ui.util.ViewHelper;
 public class MainView extends Activity {
 	final static String		TAG							= "A1Telecommander/MainView";
 
-	Button					alarmSystemButton			= null;
-	Button					heatingSystemButton			= null;
+	Button					heatingSetModeButton		= null;
+	Button					heatingSetTemperatureButton	= null;
 	Button					requestStatusUpdateButton	= null;
 
 	ImageView				logo						= null;
@@ -51,16 +48,19 @@ public class MainView extends Activity {
 	}
 
 	public void initGuiWidgets() {
-		heatingSystemButton = (Button) findViewById(R.id.HeatingSetMode);
+		heatingSetModeButton = (Button) findViewById(R.id.HeatingSetMode);
+		heatingSetTemperatureButton = (Button) findViewById(R.id.HeatingSetTemperature);
 		requestStatusUpdateButton = (Button) findViewById(R.id.RequestStatusUpdateButton);
 
 		logo = (ImageView) findViewById(R.id.Logo);
 
-		heatingSystemButton.setTextColor(Color.parseColor(A1TelecommanderSettings.buttonForegroundColor));
-		requestStatusUpdateButton.setTextColor(Color.parseColor(A1TelecommanderSettings.buttonForegroundColor));
+		// heatingSetModeButton.setTextColor(Color.parseColor(A1TelecommanderSettings.buttonForegroundColor));
+		// requestStatusUpdateButton.setTextColor(Color.parseColor(A1TelecommanderSettings.buttonForegroundColor));
 
-		ViewHelper.setBackgroundColor(heatingSystemButton, A1TelecommanderSettings.actionButtonBackgroundColor);
-		ViewHelper.setBackgroundColor(requestStatusUpdateButton, A1TelecommanderSettings.statusButtonBackgroundColor);
+		// ViewHelper.setBackgroundColor(heatingSetModeButton,
+		// A1TelecommanderSettings.actionButtonBackgroundColor);
+		// ViewHelper.setBackgroundColor(requestStatusUpdateButton,
+		// A1TelecommanderSettings.statusButtonBackgroundColor);
 	}
 
 	void startActivity(Class cls) {
@@ -69,14 +69,14 @@ public class MainView extends Activity {
 	}
 
 	public void initGuiWidgetEventMethods() {
-		heatingSystemButton.setOnTouchListener(new OnTouchListener() {
+		heatingSetModeButton.setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				startActivity(HeatingSystem.class);
 				return true;
 			}
 		});
-		heatingSystemButton.setOnClickListener(new OnClickListener() {
+		heatingSetModeButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				startActivity(HeatingSystem.class);
@@ -100,7 +100,7 @@ public class MainView extends Activity {
 		logo.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				String url = "http://www.ftw.at";
+				String url = "http://www.a1.net";
 				Intent i = new Intent(Intent.ACTION_VIEW);
 				i.setData(Uri.parse(url));
 
