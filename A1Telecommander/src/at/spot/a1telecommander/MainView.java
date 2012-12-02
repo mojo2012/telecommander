@@ -17,6 +17,8 @@ import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import at.spot.a1telecommander.pt32.IThermostatInterface.HeatingMode;
+import at.spot.a1telecommander.pt32.PT32Interface;
 import at.spot.a1telecommander.settings.A1TelecommanderSettings;
 import at.spot.a1telecommander.ui.util.ViewHelper;
 
@@ -31,6 +33,8 @@ public class MainView extends Activity {
 
 	A1TelecommanderSettings	settings					= null;
 
+	PT32Interface			pt32Interface				= null;
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,8 @@ public class MainView extends Activity {
 		settings = A1TelecommanderSettings.getInstance(getBaseContext());
 
 		checkDefaultSettings();
+
+		pt32Interface = PT32Interface.getInstance();
 	}
 
 	public void initGuiWidgets() {
@@ -59,17 +65,11 @@ public class MainView extends Activity {
 	}
 
 	public void initGuiWidgetEventMethods() {
-		heatingSetModeButton.setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				// startActivity(HeatingSystem.class);
-				return true;
-			}
-		});
 		heatingSetModeButton.setOnClickListener(new OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
-				// startActivity(HeatingSystem.class);
+				showHeatingModeDialog();
 			}
 		});
 
@@ -78,12 +78,6 @@ public class MainView extends Activity {
 			public boolean onTouch(View v, MotionEvent event) {
 				// startActivity(SystemStatus.class);
 				return true;
-			}
-		});
-		requestStatusUpdateButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// startActivity(SystemStatus.class);
 			}
 		});
 
@@ -99,6 +93,25 @@ public class MainView extends Activity {
 		});
 	}
 
+	private void showHeatingModeDialog() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+		final String[] values = new String[HeatingMode.values().length];
+
+		for (int x = 0; x < HeatingMode.values().length; x++) {
+			values[x] = HeatingMode.values()[x].toString();
+		}
+
+		builder.setTitle(R.string.set_heating_mode_text);
+		builder.setItems(values, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				pt32Interface.SetHeatingMode(values[which]);
+			}
+		});
+
+		builder.show();
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
@@ -108,14 +121,12 @@ public class MainView extends Activity {
 
 	void checkDefaultSettings() {
 		if (settings.telephoneNumber == null | settings.telephoneNumber.equals("")) {
+			showEnterTelNumberDialog("+43");
+
 			ViewHelper.showDialogBox(
 					"A1 Telecommander",
-					"Um dieses Programm verwenden zu können, müssen Sie zuerst die Telefonnummer der A1 Matikbox angeben (im folgenden Dialog möglich)."
-							+ "\n\n"
-							+ "Zusätzlich sollten Sie eine Alarmnummer im Menü \"Alarmanlage\" eingeben, um informiert zu werden, wenn ein Alarm ausgelöst wird.",
+					"Um dieses Programm verwenden zu können, müssen Sie zuerst die Telefonnummer des PG32 GST angeben (im folgenden Dialog möglich).",
 					this);
-
-			showEnterTelNumberDialog("+43");
 		}
 	}
 

@@ -5,5 +5,6 @@
     <string name="heating_set_mode">Heizungsmodus einstellen</string>
     <string name="heating_set_temperature">Temperatur einstellen</string>
     <string name="heating_request_status">Status abfragen</string>
+    <string name="set_heating_mode_text">Modus wählen</string>
 
 </resources>
