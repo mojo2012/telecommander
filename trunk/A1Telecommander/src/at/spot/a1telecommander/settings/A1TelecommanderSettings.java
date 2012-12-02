@@ -5,36 +5,26 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
 public class A1TelecommanderSettings {
-	final static String TAG = "A1Telecommander/A1TelecommanderSettings";
+	final static String						TAG							= "A1Telecommander/A1TelecommanderSettings";
 
-	private static A1TelecommanderSettings instance = null;
-	private static String PREFS_NAME = "A1Telecommander";
+	private static A1TelecommanderSettings	instance					= null;
+	private static String					PREFS_NAME					= "A1Telecommander";
 
-	public Context appContext = null;
+	public Context							appContext					= null;
 
-	SharedPreferences preferences = null;
+	SharedPreferences						preferences					= null;
 
-	public static final String actionButtonBackgroundColor = "#808080";
-	public static final String statusButtonBackgroundColor = "#D4A61A";
-	public static final String buttonForegroundColor = "#DDDDDD";
-	
+	public static final String				actionButtonBackgroundColor	= "#808080";
+	public static final String				statusButtonBackgroundColor	= "#D4A61A";
+	public static final String				buttonForegroundColor		= "#DDDDDD";
+
 	// settings
-	public String matikBoxTelephoneNumber = "";
+	public String							telephoneNumber				= "";
 
-	public String[] alarmTelNumbers = { "", "", "", "" };
+	public String[]							alarmTelNumbers				= { "", "", "", "" };
 
-	public boolean alarmEnabled = false;
-	public boolean fireAlarmEnabled = false;
-	public boolean gasAlarmEnabled = false;
-
-	public boolean saunaRunning = false;
-	public boolean doorOpened = false;
-
-	public boolean heatingOn = false;
-	public int heatingDegrees = 21;
-
-	public boolean frostWatchIsOn = false;
-	public int frostWatchDegrees = -1;
+	public boolean							heatingOn					= false;
+	public int								heatingDegrees				= 21;
 
 	private A1TelecommanderSettings(Context context) {
 		appContext = context;
@@ -58,10 +48,6 @@ public class A1TelecommanderSettings {
 	public void saveSettings() {
 		Editor editor = preferences.edit();
 
-		editor.putBoolean("alarmEnabled", alarmEnabled);
-		editor.putBoolean("fireAlarmEnabled", fireAlarmEnabled);
-		editor.putBoolean("gasAlarmEnabled", gasAlarmEnabled);
-
 		String numbers = "";
 
 		for (String entry : alarmTelNumbers)
@@ -75,29 +61,24 @@ public class A1TelecommanderSettings {
 
 		editor.putString("alarmTelNumbers", numbers);
 
-		editor.putString("matikBoxTelephoneNumber", matikBoxTelephoneNumber);
+		editor.putString("telephoneNumber", telephoneNumber);
 
 		editor.commit();
 	}
 
 	public void loadSettings() {
-		alarmEnabled = preferences.getBoolean("alarmEnabled", false);
-		fireAlarmEnabled = preferences.getBoolean("fireAlarmEnabled", false);
-		gasAlarmEnabled = preferences.getBoolean("gasAlarmEnabled", false);
-
-		matikBoxTelephoneNumber = preferences.getString(
-				"matikBoxTelephoneNumber", matikBoxTelephoneNumber);
+		telephoneNumber = preferences.getString(
+				"telephoneNumber", telephoneNumber);
 		String[] telNumbers = preferences.getString("alarmTelNumbers", "")
 				.split(";");
 
 		if (alarmTelNumbers != null)
 			alarmTelNumbers = telNumbers;
 	}
-	
+
 	public void resetSettings() {
 		Editor editor = preferences.edit();
 		editor.clear();
 		editor.commit();
 	}
 }
-

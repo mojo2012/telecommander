@@ -1,22 +1,18 @@
-<menu
-	xmlns:android="http://schemas.android.com/apk/res/android">
-	<item
-		android:id="@+id/set_matikbox_tel_number"
-		android:title="MatrikBox-Telefonnummer setzen"
-		android:icon="@android:drawable/ic_menu_agenda" />
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-	<item
-		android:id="@+id/toggle_fake_mode"
-		android:title="Fake-Modus ein/-ausschalten"
-		android:icon="@android:drawable/ic_menu_preferences" />
+    <item
+        android:id="@+id/set_tel_number"
+        android:icon="@android:drawable/ic_menu_agenda"
+        android:title="Telefonnummer des PT32 GST setzen"/>
 
-	<item
-		android:id="@+id/reset_settings"
-		android:title="Reset"
-		android:icon="@android:drawable/ic_menu_delete" />
+    <item
+        android:id="@+id/reset_settings"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="Reset"/>
 
-	<item
-		android:id="@+id/info_dialog"
-		android:title="Info"
-		android:icon="@android:drawable/ic_menu_help" />
+    <item
+        android:id="@+id/info_dialog"
+        android:icon="@android:drawable/ic_menu_help"
+        android:title="Info"/>
+
 </menu>
