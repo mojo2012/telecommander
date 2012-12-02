@@ -2,7 +2,6 @@ package at.spot.a1telecommander.ui;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,8 +13,6 @@ import at.spot.a1telecommander.R;
 import at.spot.a1telecommander.pt32.IPT32BoxListener;
 import at.spot.a1telecommander.pt32.IThermostatInterface;
 import at.spot.a1telecommander.pt32.PT32Interface;
-import at.spot.a1telecommander.settings.A1TelecommanderSettings;
-import at.spot.a1telecommander.ui.util.ViewHelper;
 
 public class SystemStatus extends Activity implements IPT32BoxListener {
 	final static String		TAG							= "A1Telecommander/SystemStatus";
@@ -67,21 +64,6 @@ public class SystemStatus extends Activity implements IPT32BoxListener {
 		requestStatusUpdateButton = (Button) findViewById(R.id.RequestStatusUpdateButton);
 
 		// heatingState = (ToggleButton) findViewById(R.id.HeatingState);
-
-		ViewHelper.setBackgroundColor(requestStatusUpdateButton,
-				A1TelecommanderSettings.actionButtonBackgroundColor);
-		ViewHelper.setBackgroundColor(alarmSystemState,
-				A1TelecommanderSettings.statusButtonBackgroundColor);
-		ViewHelper.setBackgroundColor(heatingState,
-				A1TelecommanderSettings.statusButtonBackgroundColor);
-
-		requestStatusUpdateButton.setTextColor(Color
-				.parseColor(A1TelecommanderSettings.buttonForegroundColor));
-
-		alarmSystemState.setTextColor(Color
-				.parseColor(A1TelecommanderSettings.buttonForegroundColor));
-		heatingState.setTextColor(Color
-				.parseColor(A1TelecommanderSettings.buttonForegroundColor));
 
 		// additionalStatusText = (TextView)
 		// findViewById(R.id.AdditionalStatusInfo);

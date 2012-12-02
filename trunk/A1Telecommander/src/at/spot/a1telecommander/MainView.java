@@ -109,26 +109,15 @@ public class MainView extends Activity {
 	}
 
 	void checkDefaultSettings() {
-		if (settings.telephoneNumber.equals("")) {
-			showEnterTelNumberDialog("+43");
-		}
-
-		boolean atLeastOneNumber = false;
-
-		for (String number : settings.alarmTelNumbers) {
-			if (!number.equals("")) {
-				atLeastOneNumber = true;
-				break;
-			}
-		}
-
-		if (!atLeastOneNumber) {
+		if (settings.telephoneNumber == null | settings.telephoneNumber.equals("")) {
 			ViewHelper.showDialogBox(
 					"A1 Telecommander",
 					"Um dieses Programm verwenden zu können, müssen Sie zuerst die Telefonnummer der A1 Matikbox angeben (im folgenden Dialog möglich)."
 							+ "\n\n"
 							+ "Zusätzlich sollten Sie eine Alarmnummer im Menü \"Alarmanlage\" eingeben, um informiert zu werden, wenn ein Alarm ausgelöst wird.",
 					this);
+
+			showEnterTelNumberDialog("+43");
 		}
 	}
 
@@ -146,9 +135,8 @@ public class MainView extends Activity {
 			case R.id.info_dialog:
 				ViewHelper.showDialogBox(
 						"A1 Telecommander",
-						"(c) 2011 FTW Forschungszentrum Telekommunikation Wien\n"
-								+ "\n\n"
-								+ "Autor:\nMatthias Fuchs\n(mfuchs@ftw.at)",
+						"(c) 2012 spOt - innovative coding\n" +
+								"web: www.spOt-innovativecoding.com",
 						this);
 				break;
 		}

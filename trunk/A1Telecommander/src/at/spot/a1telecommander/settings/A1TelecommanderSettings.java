@@ -3,28 +3,22 @@ package at.spot.a1telecommander.settings;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import at.spot.a1telecommander.pt32.IThermostatInterface.HeatingMode;
 
 public class A1TelecommanderSettings {
-	final static String						TAG							= "A1Telecommander/A1TelecommanderSettings";
+	final static String						TAG				= "A1Telecommander/A1TelecommanderSettings";
 
-	private static A1TelecommanderSettings	instance					= null;
-	private static String					PREFS_NAME					= "A1Telecommander";
+	private static A1TelecommanderSettings	instance		= null;
+	private static String					PREFS_NAME		= "A1Telecommander";
 
-	public Context							appContext					= null;
-
-	SharedPreferences						preferences					= null;
-
-	public static final String				actionButtonBackgroundColor	= "#808080";
-	public static final String				statusButtonBackgroundColor	= "#D4A61A";
-	public static final String				buttonForegroundColor		= "#DDDDDD";
+	public Context							appContext		= null;
+	SharedPreferences						preferences		= null;
 
 	// settings
-	public String							telephoneNumber				= "";
+	public String							telephoneNumber	= "";
 
-	public String[]							alarmTelNumbers				= { "", "", "", "" };
-
-	public boolean							heatingOn					= false;
-	public int								heatingDegrees				= 21;
+	public HeatingMode						heatingMode		= HeatingMode.Unknown;
+	public int								heatingDegrees	= -1;
 
 	private A1TelecommanderSettings(Context context) {
 		appContext = context;
@@ -48,32 +42,12 @@ public class A1TelecommanderSettings {
 	public void saveSettings() {
 		Editor editor = preferences.edit();
 
-		String numbers = "";
-
-		for (String entry : alarmTelNumbers)
-			if (entry == null)
-				numbers += ";";
-			else
-				numbers += entry + ";";
-
-		for (int b = alarmTelNumbers.length; b < 4; b++)
-			numbers += " ;";
-
-		editor.putString("alarmTelNumbers", numbers);
-
 		editor.putString("telephoneNumber", telephoneNumber);
-
 		editor.commit();
 	}
 
 	public void loadSettings() {
-		telephoneNumber = preferences.getString(
-				"telephoneNumber", telephoneNumber);
-		String[] telNumbers = preferences.getString("alarmTelNumbers", "")
-				.split(";");
-
-		if (alarmTelNumbers != null)
-			alarmTelNumbers = telNumbers;
+		telephoneNumber = preferences.getString("telephoneNumber", telephoneNumber);
 	}
 
 	public void resetSettings() {
