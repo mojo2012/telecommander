@@ -19,7 +19,7 @@ public class ViewHelper {
 			Context context) {
 		// set up dialog
 		final Dialog dialog = new Dialog(context);
-		dialog.setContentView(R.layout.dialogbox);
+		dialog.setContentView(R.layout.view_dialogbox);
 		dialog.setTitle(caption);
 		dialog.setCancelable(true);
 		// there are a lot of settings, for dialog, check them all out!

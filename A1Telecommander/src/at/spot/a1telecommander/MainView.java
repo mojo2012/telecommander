@@ -51,7 +51,7 @@ public class MainView extends Activity {
 	}
 
 	public void initGuiWidgets() {
-		heatingSystemButton = (Button) findViewById(R.id.HeatingSystemButton);
+		heatingSystemButton = (Button) findViewById(R.id.HeatingSetMode);
 		requestStatusUpdateButton = (Button) findViewById(R.id.RequestStatusUpdateButton);
 
 		logo = (ImageView) findViewById(R.id.Logo);
@@ -151,16 +151,6 @@ public class MainView extends Activity {
 		switch (item.getItemId()) {
 			case R.id.set_matikbox_tel_number:
 				showEnterTelNumberDialog(settings.matikBoxTelephoneNumber);
-				break;
-			case R.id.toggle_fake_mode:
-				PT32Interface.fakeMode = !PT32Interface.fakeMode;
-
-				if (PT32Interface.fakeMode) {
-					Toast.makeText(this, "Fake-Modus aktiviert", Toast.LENGTH_LONG).show();
-				} else {
-					Toast.makeText(this, "Fake-Modus deaktiviert", Toast.LENGTH_LONG).show();
-				}
-
 				break;
 			case R.id.reset_settings:
 				settings.resetSettings();
