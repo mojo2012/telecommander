@@ -19,7 +19,6 @@ public class PT32Interface implements ISmsMessageListener,
 
 	A1TelecommanderSettings	settings				= A1TelecommanderSettings.getInstance();
 	SmsTransceiver			smsTransceiver			= null;
-	String					number					= "";
 
 	int						signalStrength			= -1;
 	boolean					isHeatingOn				= false;
@@ -35,11 +34,8 @@ public class PT32Interface implements ISmsMessageListener,
 	public boolean			canceled				= false;
 
 	private PT32Interface() {
-		number = settings.telephoneNumber;
 		smsTransceiver = SmsTransceiver.getInstance();
 	}
-
-	public static boolean	fakeMode	= false;
 
 	public static synchronized PT32Interface getInstance() {
 		if (instance == null)
@@ -57,15 +53,15 @@ public class PT32Interface implements ISmsMessageListener,
 	}
 
 	public void SetHeatingMode(String mode) {
-		smsTransceiver.listenForMessage(this, number);
-		smsTransceiver.sendShortMessage(number, mode);
+		smsTransceiver.listenForMessage(this, settings.telephoneNumber);
+		smsTransceiver.sendShortMessage(settings.telephoneNumber, mode);
 
 		startTimer();
 	}
 
 	public void SetHeatingTemperature(int degrees) {
-		smsTransceiver.listenForMessage(this, number);
-		smsTransceiver.sendShortMessage(number, "temp " + degrees);
+		smsTransceiver.listenForMessage(this, settings.telephoneNumber);
+		smsTransceiver.sendShortMessage(settings.telephoneNumber, "temp " + degrees);
 
 		startTimer();
 	}
