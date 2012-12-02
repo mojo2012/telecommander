@@ -1,22 +1,78 @@
-<menu
-	xmlns:android="http://schemas.android.com/apk/res/android">
-	<item
-		android:id="@+id/set_matikbox_tel_number"
-		android:title="MatrikBox-Telefonnummer setzen"
-		android:icon="@android:drawable/ic_menu_agenda" />
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/MainLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFF"
+    android:gravity="center"
+    android:orientation="vertical" >
 
-	<item
-		android:id="@+id/toggle_fake_mode"
-		android:title="Fake-Modus ein/-ausschalten"
-		android:icon="@android:drawable/ic_menu_preferences" />
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="25dp"
+        android:orientation="vertical" >
 
-	<item
-		android:id="@+id/reset_settings"
-		android:title="Reset"
-		android:icon="@android:drawable/ic_menu_delete" />
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:contentDescription="A1 logo"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:maxHeight="32dp"
+            android:maxWidth="32dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/a1_logo_neu" >
+        </ImageView>
 
-	<item
-		android:id="@+id/info_dialog"
-		android:title="Info"
-		android:icon="@android:drawable/ic_menu_help" />
-</menu>
+        <Button
+            android:id="@+id/HeatingSetMode"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:drawableTop="@drawable/settings"
+            android:text="@string/heating_set_mode" />
+
+        <Button
+            android:id="@+id/HeatingSetTemperature"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:drawableTop="@drawable/heating"
+            android:text="@string/heating_set_temperature" />
+
+        <Button
+            android:id="@+id/RequestStatusUpdateButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:drawableTop="@drawable/status"
+            android:text="@string/heating_request_status" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center" >
+
+        <ImageView
+            android:id="@+id/Logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:contentDescription="spOt Logo"
+            android:maxHeight="30dp"
+            android:scaleType="matrix"
+            android:src="@drawable/spot_logo" />
+    </RelativeLayout>
+
+</RelativeLayout>
