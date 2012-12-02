@@ -11,8 +11,8 @@ import android.telephony.SmsMessage;
 import android.util.Log;
 
 public class SmsReceiver extends BroadcastReceiver {
-	final static String TAG = "A1Telecommander/SmsReceiver";
-	static final int MSG_DELETE_SMS = 0;
+	final static String	TAG				= "A1Telecommander/SmsReceiver";
+	static final int	MSG_DELETE_SMS	= 0;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -29,39 +29,37 @@ public class SmsReceiver extends BroadcastReceiver {
 				SmsMessage msg = SmsMessage.createFromPdu((byte[]) pdus[i]);
 
 				Object[] handlerArgs = new Object[2];
-				handlerArgs[0]= msg;
-				handlerArgs[1]= context;
+				handlerArgs[0] = msg;
+				handlerArgs[1] = context;
 				handler.sendMessageDelayed(handler.obtainMessage(MSG_DELETE_SMS, handlerArgs), 2500);
 
-				if (!SmsAlarm.checkIfIsAlarmSms(msg, context)) {
-					SmsTransceiver.getInstance().onReceiveSms(msg);
-				}
-
+				SmsTransceiver.getInstance().onReceiveSms(msg);
 			}
 		}
 	}
 
-	Handler handler = new Handler() {
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-			case MSG_DELETE_SMS:
-				Object[] args = (Object[])msg.obj;
-				SmsMessage message =(SmsMessage) args[0];
-				Context context =(Context) args[1];
-				
-				Log.v(TAG, "Deleting received message.");
-				
-				deleteSms(message, context);
-				
-				break;
+	Handler	handler	= new Handler() {
+						@Override
+						public void handleMessage(Message msg) {
+							switch (msg.what) {
+								case MSG_DELETE_SMS:
+									Object[] args = (Object[]) msg.obj;
+									SmsMessage message = (SmsMessage) args[0];
+									Context context = (Context) args[1];
 
-			}
-		}
-	};
+									Log.v(TAG, "Deleting received message.");
+
+									deleteSms(message, context);
+
+									break;
+
+							}
+						}
+					};
 
 	private void deleteSms(SmsMessage message, Context context) {
 		Uri deleteUri = Uri.parse("content://sms");
-		SmsMessage msg = (SmsMessage) message;
+		SmsMessage msg = message;
 
 		context.getContentResolver().delete(
 				deleteUri,

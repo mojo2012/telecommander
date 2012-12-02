@@ -10,12 +10,9 @@ import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Vibrator;
-import android.telephony.SmsMessage;
 import android.widget.Toast;
+import at.spot.a1telecommander.MainView;
 import at.spot.a1telecommander.R;
-import at.spot.a1telecommander.pt32.PT32Interface;
-import at.spot.a1telecommander.ui.AlarmView;
-import at.spot.a1telecommander.ui.PowerOutageAlarmView;
 
 public class SmsAlarm {
 	static final String			TAG						= "A1Telecommander/SmsAlarm";
@@ -25,56 +22,8 @@ public class SmsAlarm {
 	static Vibrator				vibrator				= null;
 	static Context				mContext				= null;
 
-	public static boolean checkIfIsAlarmSms(SmsMessage message, Context context) {
-		mContext = context;
-
-		String text = message.getMessageBody().toString();
-
-		if (text.contains(PT32Interface.ALARM_RUNNING)) {
-			startAlarm();
-			return true;
-		} else if (text.contains(PT32Interface.ALARM_ENDED)) {
-			cancelRunningAlarm();
-		} else if (text.contains(PT32Interface.POWER_OUTAGE)) {
-			startPowerOutageAlarm();
-			return true;
-		} else if (text.contains(PT32Interface.POWER_AVAILABLE)) {
-			cancelRunningAlarm();
-		}
-
-		return false;
-	}
-
-	public static void startAlarm() {
-		playAlarmNoise();
-		vibrate();
-		showNotificationMessage("Alarm wurde ausgelöst");
-		showNotificationIcon("Alarm ausgelöst");
-		showAlarmView();
-	}
-
-	public static void startPowerOutageAlarm() {
-		// playAlarmNoise();
-		// vibrate();
-		showNotificationMessage("Achtung Stromausfall!");
-		showNotificationIcon("Stromausfall!");
-		showPowerOutageView();
-	}
-
 	static void showNotificationMessage(String message) {
 		Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
-	}
-
-	static void showAlarmView() {
-		Intent i = new Intent(mContext, AlarmView.class);
-		i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		mContext.startActivity(i);
-	}
-
-	static void showPowerOutageView() {
-		Intent i = new Intent(mContext, PowerOutageAlarmView.class);
-		i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		mContext.startActivity(i);
 	}
 
 	static void playAlarmNoise() {
@@ -126,7 +75,7 @@ public class SmsAlarm {
 		notification.flags |= Notification.FLAG_ONGOING_EVENT;
 		notification.flags |= Notification.FLAG_NO_CLEAR;
 
-		Intent notificationIntent = new Intent(mContext, AlarmView.class);
+		Intent notificationIntent = new Intent(mContext, MainView.class);
 
 		// This is who should be launched if the user selects our notification.
 		PendingIntent contentIntent = PendingIntent.getActivity(mContext, 0,
