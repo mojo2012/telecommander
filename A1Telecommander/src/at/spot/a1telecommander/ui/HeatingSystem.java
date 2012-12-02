@@ -2,7 +2,6 @@ package at.spot.a1telecommander.ui;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,7 +9,6 @@ import at.spot.a1telecommander.pt32.IPT32BoxListener;
 import at.spot.a1telecommander.pt32.IThermostatInterface;
 import at.spot.a1telecommander.pt32.PT32Interface;
 import at.spot.a1telecommander.settings.A1TelecommanderSettings;
-import at.spot.a1telecommander.ui.util.ViewHelper;
 
 public class HeatingSystem extends Activity implements IPT32BoxListener {
 	final static String		TAG						= "A1Telecommander/HeatingSystem";
@@ -80,23 +78,6 @@ public class HeatingSystem extends Activity implements IPT32BoxListener {
 
 		heatingDegreesText.setEnabled(false);
 
-		ViewHelper.setBackgroundColor(startHeatingButton,
-				A1TelecommanderSettings.actionButtonBackgroundColor);
-		ViewHelper.setBackgroundColor(stopHeatingButton,
-				A1TelecommanderSettings.actionButtonBackgroundColor);
-		ViewHelper.setBackgroundColor(decrementTemperature,
-				A1TelecommanderSettings.actionButtonBackgroundColor);
-		ViewHelper.setBackgroundColor(incrementTemperature,
-				A1TelecommanderSettings.actionButtonBackgroundColor);
-
-		startHeatingButton.setTextColor(Color
-				.parseColor(A1TelecommanderSettings.buttonForegroundColor));
-		stopHeatingButton.setTextColor(Color
-				.parseColor(A1TelecommanderSettings.buttonForegroundColor));
-		decrementTemperature.setTextColor(Color
-				.parseColor(A1TelecommanderSettings.buttonForegroundColor));
-		incrementTemperature.setTextColor(Color
-				.parseColor(A1TelecommanderSettings.buttonForegroundColor));
 	}
 
 	// public void initGuiWidgetEventMethods() {
