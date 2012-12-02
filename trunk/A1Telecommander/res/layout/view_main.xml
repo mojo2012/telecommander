@@ -1,68 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/MainLayout"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:gravity="center"
-    android:background="#FFF"
-    android:orientation="vertical" >
+<menu
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<item
+		android:id="@+id/set_matikbox_tel_number"
+		android:title="MatrikBox-Telefonnummer setzen"
+		android:icon="@android:drawable/ic_menu_agenda" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="50dp"
-        android:orientation="vertical" >
+	<item
+		android:id="@+id/toggle_fake_mode"
+		android:title="Fake-Modus ein/-ausschalten"
+		android:icon="@android:drawable/ic_menu_preferences" />
 
-        <ImageView
-            android:id="@+id/imageView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fitsSystemWindows="true"
-            android:maxHeight="32dp"
-            android:maxWidth="32dp"
-            android:scaleType="center"
-            android:src="@drawable/a1_logo" >
-        </ImageView>
+	<item
+		android:id="@+id/reset_settings"
+		android:title="Reset"
+		android:icon="@android:drawable/ic_menu_delete" />
 
-        <Button
-            android:id="@+id/HeatingSystemButton"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:drawableTop="@drawable/heating"
-            android:text="@string/HeatingButtonText" />
-
-        <Button
-            android:id="@+id/RequestStatusUpdateButton"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:drawableTop="@drawable/misc_settings"
-            android:text="@string/RequestStatus" />
-    </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/relativeLayout1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:gravity="center" >
-
-        <ImageView
-            android:id="@+id/Logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:contentDescription="spOt Logo"
-            android:maxHeight="30dp"
-            android:scaleType="matrix"
-            android:src="@drawable/spot_logo" />
-    </RelativeLayout>
-
-</RelativeLayout>
+	<item
+		android:id="@+id/info_dialog"
+		android:title="Info"
+		android:icon="@android:drawable/ic_menu_help" />
+</menu>

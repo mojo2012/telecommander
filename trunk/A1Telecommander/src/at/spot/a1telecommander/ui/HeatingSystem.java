@@ -10,8 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import at.spot.a1telecommander.R;
-import at.spot.a1telecommander.pt32.IThermostatInterface;
 import at.spot.a1telecommander.pt32.IPT32BoxListener;
+import at.spot.a1telecommander.pt32.IThermostatInterface;
 import at.spot.a1telecommander.pt32.PT32Interface;
 import at.spot.a1telecommander.settings.A1TelecommanderSettings;
 import at.spot.a1telecommander.ui.util.ViewHelper;
@@ -28,7 +28,7 @@ public class HeatingSystem extends Activity implements IPT32BoxListener {
 	Button					decrementTemperature	= null;
 	Button					incrementTemperature	= null;
 
-	IThermostatInterface		matikBox				= PT32Interface.getInstance();
+	IThermostatInterface	matikBox				= PT32Interface.getInstance();
 
 	A1TelecommanderSettings	settings				= A1TelecommanderSettings.getInstance();
 
@@ -38,7 +38,7 @@ public class HeatingSystem extends Activity implements IPT32BoxListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.heating_system);
+		setContentView(R.layout.view_heating_system);
 
 		initGuiWidgets();
 		initGuiWidgetEventMethods();
