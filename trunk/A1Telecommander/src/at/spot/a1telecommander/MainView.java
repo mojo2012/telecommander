@@ -21,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import at.spot.a1telecommander.pt32.PT32Interface;
 import at.spot.a1telecommander.settings.A1TelecommanderSettings;
-import at.spot.a1telecommander.ui.DoorSystem;
 import at.spot.a1telecommander.ui.HeatingSystem;
 import at.spot.a1telecommander.ui.SystemStatus;
 import at.spot.a1telecommander.ui.util.ViewHelper;
@@ -80,7 +79,7 @@ public class MainView extends Activity {
 		heatingSystemButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(DoorSystem.class);
+				startActivity(HeatingSystem.class);
 			}
 		});
 
