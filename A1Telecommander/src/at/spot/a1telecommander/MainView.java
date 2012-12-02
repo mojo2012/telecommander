@@ -53,14 +53,6 @@ public class MainView extends Activity {
 		requestStatusUpdateButton = (Button) findViewById(R.id.RequestStatusUpdateButton);
 
 		logo = (ImageView) findViewById(R.id.Logo);
-
-		// heatingSetModeButton.setTextColor(Color.parseColor(A1TelecommanderSettings.buttonForegroundColor));
-		// requestStatusUpdateButton.setTextColor(Color.parseColor(A1TelecommanderSettings.buttonForegroundColor));
-
-		// ViewHelper.setBackgroundColor(heatingSetModeButton,
-		// A1TelecommanderSettings.actionButtonBackgroundColor);
-		// ViewHelper.setBackgroundColor(requestStatusUpdateButton,
-		// A1TelecommanderSettings.statusButtonBackgroundColor);
 	}
 
 	void startActivity(Class cls) {
@@ -100,7 +92,7 @@ public class MainView extends Activity {
 		logo.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				String url = "http://www.a1.net";
+				String url = "http://www.spot-innovativecoding.com";
 				Intent i = new Intent(Intent.ACTION_VIEW);
 				i.setData(Uri.parse(url));
 
@@ -117,7 +109,7 @@ public class MainView extends Activity {
 	}
 
 	void checkDefaultSettings() {
-		if (settings.matikBoxTelephoneNumber.equals("")) {
+		if (settings.telephoneNumber.equals("")) {
 			showEnterTelNumberDialog("+43");
 		}
 
@@ -131,26 +123,20 @@ public class MainView extends Activity {
 		}
 
 		if (!atLeastOneNumber) {
-			// TelephonyManager tMgr = (TelephonyManager)
-			// getSystemService(Context.TELEPHONY_SERVICE);
-			// settings.alarmTelNumbers[0] = tMgr.getLine1Number();
-			// settings.saveSettings();
-
-			ViewHelper
-					.showDialogBox(
-							"A1 Telecommander",
-							"Um dieses Programm verwenden zu können, müssen Sie zuerst die Telefonnummer der A1 Matikbox angeben (im folgenden Dialog möglich)."
-									+ "\n\n"
-									+ "Zusätzlich sollten Sie eine Alarmnummer im Menü \"Alarmanlage\" eingeben, um informiert zu werden, wenn ein Alarm ausgelöst wird.",
-							this);
+			ViewHelper.showDialogBox(
+					"A1 Telecommander",
+					"Um dieses Programm verwenden zu können, müssen Sie zuerst die Telefonnummer der A1 Matikbox angeben (im folgenden Dialog möglich)."
+							+ "\n\n"
+							+ "Zusätzlich sollten Sie eine Alarmnummer im Menü \"Alarmanlage\" eingeben, um informiert zu werden, wenn ein Alarm ausgelöst wird.",
+					this);
 		}
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.set_matikbox_tel_number:
-				showEnterTelNumberDialog(settings.matikBoxTelephoneNumber);
+			case R.id.set_tel_number:
+				showEnterTelNumberDialog(settings.telephoneNumber);
 				break;
 			case R.id.reset_settings:
 				settings.resetSettings();
@@ -170,7 +156,7 @@ public class MainView extends Activity {
 	}
 
 	void showEnterTelNumberDialog(String defaultValue) {
-		showInputDialog("A1 Telecommander", "Bitte Telefonnummer der MatikBox festlegen!", defaultValue);
+		showInputDialog("A1 Telecommander", "Bitte Telefonnummer des PT32 GST festlegen!", defaultValue);
 	}
 
 	void showInputDialog(String title, String message, String defaultValue) {
@@ -190,7 +176,7 @@ public class MainView extends Activity {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				String value = input.getText().toString();
 
-				settings.matikBoxTelephoneNumber = value;
+				settings.telephoneNumber = value;
 				settings.saveSettings();
 			}
 		});

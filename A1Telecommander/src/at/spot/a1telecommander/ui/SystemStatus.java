@@ -105,8 +105,6 @@ public class SystemStatus extends Activity implements IPT32BoxListener {
 
 	void getStatus() {
 		// matikBox.listenForStateChanges(this);
-
-		matikBox.RequestAlarmSystemStatusUpdate();
 	}
 
 	@Override
@@ -130,32 +128,33 @@ public class SystemStatus extends Activity implements IPT32BoxListener {
 
 			Log.v(TAG, "Status request failed!");
 		} else {
-			if (requestIndex == 0) {
-				if (matikBox.isAlarmEnabled()) {
-					alarmSystemState.setTextOn("Alarmanlage: Eingeschaltet");
-					alarmSystemState.setChecked(true);
-				} else {
-					alarmSystemState.setTextOff("Alarmanlage: Ausgeschaltet");
-					alarmSystemState.setChecked(false);
-				}
-
-				Log.v(TAG, "Received alarm system state!");
-				matikBox.RequestHeatingSystemStatusUpdate();
-			}
-
-			if (requestIndex == 1) {
-				if (matikBox.isHeatingOn()) {
-					heatingState.setTextOn("Heizung: Eingeschaltet mit " + matikBox.heatingDegrees() + "° C");
-					heatingState.setChecked(true);
-				} else {
-					heatingState.setTextOff("Heizung: Ausgeschaltet");
-					heatingState.setChecked(false);
-				}
-
-				Log.v(TAG, "Received heating system state!");
-				// matikBox.RequestDoorAndSaunaSystemStatusUpdate();
-				// request stromausfall status
-			}
+			// if (requestIndex == 0) {
+			// if (matikBox.isAlarmEnabled()) {
+			// alarmSystemState.setTextOn("Alarmanlage: Eingeschaltet");
+			// alarmSystemState.setChecked(true);
+			// } else {
+			// alarmSystemState.setTextOff("Alarmanlage: Ausgeschaltet");
+			// alarmSystemState.setChecked(false);
+			// }
+			//
+			// Log.v(TAG, "Received alarm system state!");
+			// matikBox.RequestHeatingStateUpdate();
+			// }
+			//
+			// if (requestIndex == 1) {
+			// if (matikBox.isHeatingOn()) {
+			// heatingState.setTextOn("Heizung: Eingeschaltet mit " +
+			// matikBox.heatingDegrees() + "° C");
+			// heatingState.setChecked(true);
+			// } else {
+			// heatingState.setTextOff("Heizung: Ausgeschaltet");
+			// heatingState.setChecked(false);
+			// }
+			//
+			// Log.v(TAG, "Received heating system state!");
+			// // matikBox.RequestDoorAndSaunaSystemStatusUpdate();
+			// // request stromausfall status
+			// }
 
 			// if (requestIndex == 2) {
 			// if (matikBox.isDoorOpen()) {
