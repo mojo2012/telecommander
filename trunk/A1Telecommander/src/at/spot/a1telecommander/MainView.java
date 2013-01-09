@@ -1,5 +1,8 @@
 package at.spot.a1telecommander;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -108,17 +111,17 @@ public class MainView extends Activity implements IPT32BoxListener {
 
 		loadingDialog = progressDialog;
 
-		final String[] values = new String[HeatingMode.values().length];
+		final List<String> values = new ArrayList<String>();
 
 		for (int x = 0; x < HeatingMode.values().length; x++) {
 			if (HeatingMode.values()[x] != HeatingMode.Unknown)
-				values[x] = HeatingMode.values()[x].toString();
+				values.add(HeatingMode.values()[x].toString());
 		}
 
 		builder.setTitle(R.string.set_heating_mode_text);
-		builder.setItems(values, new DialogInterface.OnClickListener() {
+		builder.setItems(values.toArray(new String[values.size()]), new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-				pt32Interface.SetHeatingMode(values[which]);
+				pt32Interface.SetHeatingMode(values.get(which));
 				progressDialog.show();
 			}
 		});
