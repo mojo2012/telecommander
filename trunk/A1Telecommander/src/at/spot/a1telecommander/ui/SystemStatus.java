@@ -90,7 +90,7 @@ public class SystemStatus extends Activity implements IPT32BoxListener {
 	}
 
 	@Override
-	public void onStateChanged() {
+	public void onStateChanged(PT32State state, boolean success) {
 		if (IThermostatInterface.canceled) {
 			String unknownText = "Status unbekannt";
 
