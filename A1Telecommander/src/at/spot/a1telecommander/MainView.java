@@ -2,6 +2,7 @@ package at.spot.a1telecommander;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -17,12 +18,14 @@ import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
+import at.spot.a1telecommander.pt32.IPT32BoxListener;
 import at.spot.a1telecommander.pt32.IThermostatInterface.HeatingMode;
 import at.spot.a1telecommander.pt32.PT32Interface;
 import at.spot.a1telecommander.settings.A1TelecommanderSettings;
 import at.spot.a1telecommander.ui.util.ViewHelper;
 
-public class MainView extends Activity {
+public class MainView extends Activity implements IPT32BoxListener {
 	final static String		TAG							= "A1Telecommander/MainView";
 
 	Button					heatingSetModeButton		= null;
@@ -34,6 +37,8 @@ public class MainView extends Activity {
 	A1TelecommanderSettings	settings					= null;
 
 	PT32Interface			pt32Interface				= null;
+
+	ProgressDialog			loadingDialog				= null;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -49,6 +54,7 @@ public class MainView extends Activity {
 		checkDefaultSettings();
 
 		pt32Interface = PT32Interface.getInstance();
+		pt32Interface.listenForStateChanges(this);
 	}
 
 	public void initGuiWidgets() {
@@ -94,18 +100,26 @@ public class MainView extends Activity {
 	}
 
 	private void showHeatingModeDialog() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		final ProgressDialog progressDialog = new ProgressDialog(this);
+
+		progressDialog.setTitle("Stelle Heizung ein");
+		progressDialog.setMessage("Bitte warten ...");
+
+		loadingDialog = progressDialog;
 
 		final String[] values = new String[HeatingMode.values().length];
 
 		for (int x = 0; x < HeatingMode.values().length; x++) {
-			values[x] = HeatingMode.values()[x].toString();
+			if (HeatingMode.values()[x] != HeatingMode.Unknown)
+				values[x] = HeatingMode.values()[x].toString();
 		}
 
 		builder.setTitle(R.string.set_heating_mode_text);
 		builder.setItems(values, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				pt32Interface.SetHeatingMode(values[which]);
+				progressDialog.show();
 			}
 		});
 
@@ -186,5 +200,24 @@ public class MainView extends Activity {
 				});
 
 		alert.show();
+	}
+
+	@Override
+	public void onStateChanged(PT32State state, boolean success) {
+		loadingDialog.dismiss();
+
+		String msg = "";
+
+		if (success) {
+			if (state == PT32State.HeatingModeSet) {
+				msg = "Der Heizungsmodus wurde erfolgreich eingestellt!";
+			} else if (state == PT32State.TemperatureSet) {
+				msg = "Die Temperatur wurde erfolgreich eingestellt!";
+			}
+		} else {
+			msg = "Es ist ein Fehler aufgetreten (das Gerät antwortet nicht)";
+		}
+
+		Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
 	}
 }

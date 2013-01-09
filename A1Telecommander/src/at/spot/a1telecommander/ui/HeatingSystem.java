@@ -152,7 +152,7 @@ public class HeatingSystem extends Activity implements IPT32BoxListener {
 	// }
 	//
 	// @Override
-	public void onStateChanged() {
+	public void onStateChanged(PT32State state, boolean success) {
 		if (progressDialog != null)
 			progressDialog.dismiss();
 

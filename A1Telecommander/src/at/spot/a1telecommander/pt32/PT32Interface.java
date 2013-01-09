@@ -7,6 +7,7 @@ import java.util.TimerTask;
 
 import android.os.Looper;
 import android.util.Log;
+import at.spot.a1telecommander.pt32.IPT32BoxListener.PT32State;
 import at.spot.a1telecommander.settings.A1TelecommanderSettings;
 import at.spot.a1telecommander.sms.ISmsMessageListener;
 import at.spot.a1telecommander.sms.SmsTransceiver;
@@ -33,6 +34,10 @@ public class PT32Interface implements ISmsMessageListener,
 	int						timeout					= 300000;
 	public boolean			canceled				= false;
 
+	PT32State				pendingState			= PT32State.Idle;
+	boolean					pendingStateSuccess		= false;
+	boolean					pendingRequests			= false;
+
 	private PT32Interface() {
 		smsTransceiver = SmsTransceiver.getInstance();
 	}
@@ -44,8 +49,6 @@ public class PT32Interface implements ISmsMessageListener,
 		return instance;
 	}
 
-	boolean	pendingRequests	= false;
-
 	public void RequestStatusUpdate() {
 		pendingRequests = true;
 
@@ -53,6 +56,8 @@ public class PT32Interface implements ISmsMessageListener,
 	}
 
 	public void SetHeatingMode(String mode) {
+		pendingState = PT32State.HeatingModeSet;
+
 		smsTransceiver.listenForMessage(this, settings.telephoneNumber);
 		smsTransceiver.sendShortMessage(settings.telephoneNumber, mode);
 
@@ -60,6 +65,8 @@ public class PT32Interface implements ISmsMessageListener,
 	}
 
 	public void SetHeatingTemperature(int degrees) {
+		pendingState = PT32State.TemperatureSet;
+
 		smsTransceiver.listenForMessage(this, settings.telephoneNumber);
 		smsTransceiver.sendShortMessage(settings.telephoneNumber, "temp " + degrees);
 
@@ -70,21 +77,23 @@ public class PT32Interface implements ISmsMessageListener,
 	public void messageReceived(String message) {
 		Log.d(TAG, message);
 
-		String[] parts = message.split(";");
+		String[] parts = message.trim().split(";");
 
 		int x = 0;
 
 		for (String p : parts) {
-			String[] tmp = p.split(":");
-
-			if (tmp.length == 1) {
-				tmp = p.split(" ");
-			}
+			String[] tmp = p.trim().split(":");
 
 			String key = "";
 			String value = "";
 
-			if (tmp.length == 2) {
+			if (tmp.length == 1) {
+				tmp = tmp[0].split(" ");
+			}
+
+			if (tmp.length == 1) {
+				value = tmp[0];
+			} else if (tmp.length == 2) {
 				key = tmp[0];
 				value = tmp[1];
 			} else {
@@ -92,30 +101,34 @@ public class PT32Interface implements ISmsMessageListener,
 				value = tmp[0];
 			}
 
-			x++;
-
 			try {
 				switch (x) {
 					case 0: // required temperature (float value)
-						heatingRequiredDegrees = Float.parseFloat(value);
+						heatingRequiredDegrees = Float.parseFloat(value.trim());
 						break;
 					case 1: // Actual temperature (float value)
-						heatingActualDegrees = Float.parseFloat(value);
+						heatingActualDegrees = Float.parseFloat(value.trim());
 						break;
 					case 2: // heating status (on, off)
-						isHeatingOn = value.toLowerCase(Locale.GERMAN).equals("on");
+						// Vypnuto
+						isHeatingOn = value.trim().toLowerCase(Locale.GERMAN).equals("on");
 						break;
 					case 3: // heating mode
-						heatingMode = HeatingMode.valueOf(value);
+						// if (!key.toLowerCase().equals("set"))
+						// throw new Exception("This is not the answer SMS!");
+
+						heatingMode = HeatingMode.valueOf(toCapitalString(value.trim()));
 						break;
 					case 4: // Signal strength (0=no signal; 1=weak; 5=good)
-						signalStrength = Integer.parseInt(value);
+						signalStrength = Integer.parseInt(value.trim());
 						break;
 				}
 			} catch (Exception ex) {
-				ex.printStackTrace();
 				Log.i(TAG, "WARNING: could not parse message: message=" + message);
+				return;
 			}
+
+			x++;
 		}
 
 		lastAnswer = message;
@@ -128,11 +141,27 @@ public class PT32Interface implements ISmsMessageListener,
 		}
 
 		if (!pendingRequests) {
+			pendingStateSuccess = true;
+
 			for (IPT32BoxListener listener : stateListeners) {
 				if (listener != null)
-					listener.onStateChanged();
+					listener.onStateChanged(pendingState, pendingStateSuccess);
 			}
 		}
+
+		resetPendingState();
+	}
+
+	private static String toCapitalString(String string) {
+		char[] stringArray = string.toLowerCase(Locale.GERMAN).toCharArray();
+		stringArray[0] = Character.toUpperCase(stringArray[0]);
+		string = new String(stringArray);
+
+		return string;
+	}
+
+	private void resetPendingState() {
+		pendingStateSuccess = false;
 	}
 
 	boolean isFullUpdateComplete() {
@@ -157,6 +186,8 @@ public class PT32Interface implements ISmsMessageListener,
 	}
 
 	void startTimer() {
+		pendingRequests = true;
+
 		canceled = false;
 
 		timer = new Timer();
@@ -175,10 +206,13 @@ public class PT32Interface implements ISmsMessageListener,
 	void stopTimer() {
 		if (timer != null)
 			timer.cancel();
+
 		timer.purge();
 	}
 
 	void cancelPendingUpdate() {
+		resetPendingState();
+
 		if (!canceledTimer) {
 			Looper.prepare();
 
@@ -195,7 +229,7 @@ public class PT32Interface implements ISmsMessageListener,
 
 			for (IPT32BoxListener listener : stateListeners) {
 				if (listener != null)
-					listener.onStateChanged();
+					listener.onStateChanged(pendingState, pendingStateSuccess);
 			}
 		}
 	}

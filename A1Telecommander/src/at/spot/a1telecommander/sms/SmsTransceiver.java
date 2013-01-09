@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
+import android.util.Log;
 
 public class SmsTransceiver {
 	final static String				TAG			= "A1Telecommander/SmsTransceiver";
@@ -57,6 +58,8 @@ public class SmsTransceiver {
 	public void onReceiveSms(SmsMessage message) {
 		String sender = message.getOriginatingAddress();
 		String text = message.getMessageBody().toString();
+
+		Log.i(TAG, "INFO: receiving message from sender " + sender + ", text=" + text);
 
 		for (SmsMessageListenerEntry entry : messageListeners) {
 			if (sender.equals(entry.number))

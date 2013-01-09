@@ -28,10 +28,14 @@ public class SmsReceiver extends BroadcastReceiver {
 			for (int i = 0; i < msgs.length; i++) {
 				SmsMessage msg = SmsMessage.createFromPdu((byte[]) pdus[i]);
 
-				Object[] handlerArgs = new Object[2];
-				handlerArgs[0] = msg;
-				handlerArgs[1] = context;
-				handler.sendMessageDelayed(handler.obtainMessage(MSG_DELETE_SMS, handlerArgs), 2500);
+				// Object[] handlerArgs = new Object[2];
+				// handlerArgs[0] = msg;
+				// handlerArgs[1] = context;
+				// handler.sendMessageDelayed(handler.obtainMessage(MSG_DELETE_SMS,
+				// handlerArgs), 2500);
+
+				abortBroadcast();
+				deleteSms(msg, context);
 
 				SmsTransceiver.getInstance().onReceiveSms(msg);
 			}
