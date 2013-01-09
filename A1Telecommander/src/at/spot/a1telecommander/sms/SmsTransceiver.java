@@ -23,6 +23,7 @@ public class SmsTransceiver {
 
 	public void sendShortMessage(String number, String message) {
 		sm.sendTextMessage(number, null, message, null, null);
+		Log.i(TAG, "Sending message to " + number + ", text=" + message);
 	}
 
 	class SmsMessageListenerEntry {
@@ -59,7 +60,7 @@ public class SmsTransceiver {
 		String sender = message.getOriginatingAddress();
 		String text = message.getMessageBody().toString();
 
-		Log.i(TAG, "INFO: receiving message from sender " + sender + ", text=" + text);
+		Log.i(TAG, "INFO: receiving message from number " + sender + ", text=" + text);
 
 		for (SmsMessageListenerEntry entry : messageListeners) {
 			if (sender.equals(entry.number))

@@ -213,24 +213,22 @@ public class PT32Interface implements ISmsMessageListener,
 	void cancelPendingUpdate() {
 		resetPendingState();
 
-		if (!canceledTimer) {
-			Looper.prepare();
+		Looper.prepare();
 
-			// onStateChanged();
-			canceled = true;
+		// onStateChanged();
+		canceled = true;
 
-			stopTimer();
+		stopTimer();
 
-			// Toast
-			// .makeText(
-			// settings.appContext,
-			// "A1 MatikBox antwortet nicht! Bitte versuchen Sie es später noch einmal.",
-			// Toast.LENGTH_LONG).show();
+		// Toast
+		// .makeText(
+		// settings.appContext,
+		// "A1 MatikBox antwortet nicht! Bitte versuchen Sie es später noch einmal.",
+		// Toast.LENGTH_LONG).show();
 
-			for (IPT32BoxListener listener : stateListeners) {
-				if (listener != null)
-					listener.onStateChanged(pendingState, pendingStateSuccess);
-			}
+		for (IPT32BoxListener listener : stateListeners) {
+			if (listener != null)
+				listener.onStateChanged(pendingState, pendingStateSuccess);
 		}
 	}
 }
