@@ -11,16 +11,19 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.TextView;
 import android.widget.Toast;
 import at.spot.a1telecommander.pt32.IPT32BoxListener;
 import at.spot.a1telecommander.pt32.IThermostatInterface.HeatingMode;
@@ -64,7 +67,6 @@ public class MainView extends Activity implements IPT32BoxListener {
 		heatingSetModeButton = (Button) findViewById(R.id.HeatingSetMode);
 		heatingSetTemperatureButton = (Button) findViewById(R.id.HeatingSetTemperature);
 		requestStatusUpdateButton = (Button) findViewById(R.id.RequestStatusUpdateButton);
-
 		logo = (ImageView) findViewById(R.id.Logo);
 	}
 
@@ -75,18 +77,23 @@ public class MainView extends Activity implements IPT32BoxListener {
 
 	public void initGuiWidgetEventMethods() {
 		heatingSetModeButton.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				showHeatingModeDialog();
 			}
 		});
 
-		requestStatusUpdateButton.setOnTouchListener(new OnTouchListener() {
+		heatingSetTemperatureButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				// startActivity(SystemStatus.class);
-				return true;
+			public void onClick(View v) {
+				showSetTemperatureDialog();
+			}
+		});
+
+		requestStatusUpdateButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
 			}
 		});
 
@@ -104,12 +111,7 @@ public class MainView extends Activity implements IPT32BoxListener {
 
 	private void showHeatingModeDialog() {
 		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		final ProgressDialog progressDialog = new ProgressDialog(this);
-
-		progressDialog.setTitle("Stelle Heizung ein");
-		progressDialog.setMessage("Bitte warten ...");
-
-		loadingDialog = progressDialog;
+		final ProgressDialog progressDialog = createProgressDialog("Stelle Heizung ein", "Bitte warten ...");
 
 		final List<String> values = new ArrayList<String>();
 
@@ -127,6 +129,73 @@ public class MainView extends Activity implements IPT32BoxListener {
 		});
 
 		builder.show();
+	}
+
+	// wenn MANU kann keine Temp gesetzt werden
+	private void showSetTemperatureDialog() {
+		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		final ProgressDialog progressDialog = createProgressDialog("Stelle Temperatur ein", "Bitte warten ...");
+
+		final LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+		final View view = inflater.inflate(R.layout.seekbar_dialog, (ViewGroup) findViewById(R.id.seekbarDialog));
+
+		final TextView tempLabel = (TextView) view.findViewById(R.id.textField);
+		final SeekBar seekBar = (SeekBar) view.findViewById(R.id.seekBar);
+
+		final int seekBarMinValue = 3;
+
+		seekBar.setMax(36);
+
+		if (settings.getHeatingDegrees() > -1)
+			seekBar.setProgress(settings.getHeatingDegrees());
+		else
+			seekBar.setProgress(15);
+
+		tempLabel.setText("Temperatur: " + seekBar.getProgress());
+
+		seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+			}
+
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+				tempLabel.setText("Temperatur: " + (seekBarMinValue + progress));
+			}
+		});
+
+		builder.setView(view);
+		builder.setTitle(R.string.set_temperature_text);
+
+		builder.setPositiveButton("OK",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						pt32Interface.SetHeatingTemperature(seekBar.getProgress() + 3);
+						progressDialog.show();
+					}
+				});
+
+		builder.setNegativeButton("Abbrechen",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				});
+
+		builder.show();
+	}
+
+	private ProgressDialog createProgressDialog(String title, String text) {
+		loadingDialog = new ProgressDialog(this);
+
+		loadingDialog.setTitle(title);
+		loadingDialog.setMessage(text);
+
+		return loadingDialog;
 	}
 
 	@Override

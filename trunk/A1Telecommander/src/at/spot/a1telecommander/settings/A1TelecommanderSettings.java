@@ -20,6 +20,18 @@ public class A1TelecommanderSettings {
 	public HeatingMode						heatingMode		= HeatingMode.Unknown;
 	public int								heatingDegrees	= -1;
 
+	public String getTelephoneNumber() {
+		return this.telephoneNumber;
+	}
+
+	public HeatingMode getHeatingMode() {
+		return this.heatingMode;
+	}
+
+	public int getHeatingDegrees() {
+		return this.heatingDegrees;
+	}
+
 	private A1TelecommanderSettings(Context context) {
 		appContext = context;
 
