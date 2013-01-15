@@ -142,14 +142,14 @@ public class MainView extends Activity implements IPT32BoxListener {
 		final TextView tempLabel = (TextView) view.findViewById(R.id.textField);
 		final SeekBar seekBar = (SeekBar) view.findViewById(R.id.seekBar);
 
-		final int seekBarMinValue = 3;
+		final int seekBarMinValue = (int) PT32Interface.MINIMUM_HEATING_TEMPERATURE;
 
-		seekBar.setMax(36);
+		seekBar.setMax((int) PT32Interface.MAXIMUM_HEATING_TEMPERATURE - seekBarMinValue);
 
 		if (pt32Interface.getHeatingRequiredDegrees() > -1)
 			seekBar.setProgress((int) pt32Interface.getHeatingRequiredDegrees());
 		else
-			seekBar.setProgress(15);
+			seekBar.setProgress((int) PT32Interface.DEFAULT_HEATING_TEMPERATURE);
 
 		tempLabel.setText("Temperatur: " + seekBar.getProgress());
 
@@ -174,7 +174,8 @@ public class MainView extends Activity implements IPT32BoxListener {
 		builder.setPositiveButton("OK",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
-						pt32Interface.SetHeatingTemperature(seekBar.getProgress() + 3);
+						pt32Interface.SetHeatingTemperature(seekBar.getProgress()
+								+ (int) PT32Interface.MINIMUM_HEATING_TEMPERATURE);
 						progressDialog.show();
 					}
 				});

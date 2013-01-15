@@ -16,32 +16,35 @@ import at.spot.a1telecommander.sms.SmsTransceiver;
 public class PT32Interface implements ISmsMessageListener,
 		IThermostatInterface {
 
-	static final String			MESSAGE_NOT_ACCEPTED	= "Noakcept";
+	static final String			MESSAGE_NOT_ACCEPTED		= "Noakcept";
+	public static final float	MINIMUM_HEATING_TEMPERATURE	= 10;
+	public static final float	MAXIMUM_HEATING_TEMPERATURE	= 39;
+	public static final float	DEFAULT_HEATING_TEMPERATURE	= 21;
 
-	static PT32Interface		instance				= null;
-	final static String			TAG						= "A1Telecommander/PT32Intertface";
+	static PT32Interface		instance					= null;
+	final static String			TAG							= "A1Telecommander/PT32Intertface";
 
-	A1TelecommanderSettings		settings				= A1TelecommanderSettings.getInstance();
-	SmsTransceiver				smsTransceiver			= null;
+	A1TelecommanderSettings		settings					= A1TelecommanderSettings.getInstance();
+	SmsTransceiver				smsTransceiver				= null;
 
-	int							signalStrength			= -1;
-	boolean						isHeatingOn				= false;
-	HeatingMode					heatingMode				= HeatingMode.Unknown;
-	float						heatingActualDegrees	= -1;
+	int							signalStrength				= -1;
+	boolean						isHeatingOn					= false;
+	HeatingMode					heatingMode					= HeatingMode.Unknown;
+	float						heatingActualDegrees		= -1;
 
-	float						heatingRequiredDegrees	= -1;
+	float						heatingRequiredDegrees		= -1;
 
-	String						lastAnswer				= "";
+	String						lastAnswer					= "";
 
-	Timer						timer					= null;
-	boolean						canceledTimer			= false;
-	int							timeout					= 300000;
-	public boolean				canceled				= false;
+	Timer						timer						= null;
+	boolean						canceledTimer				= false;
+	int							timeout						= 300000;
+	public boolean				canceled					= false;
 
-	PT32TransactionMode			pendingState			= PT32TransactionMode.Idle;
-	PT32TransactionErrorReason	pendingTransactionError	= null;
-	boolean						pendingStateSuccess		= false;
-	boolean						pendingRequests			= false;
+	PT32TransactionMode			pendingState				= PT32TransactionMode.Idle;
+	PT32TransactionErrorReason	pendingTransactionError		= null;
+	boolean						pendingStateSuccess			= false;
+	boolean						pendingRequests				= false;
 
 	private PT32Interface() {
 		smsTransceiver = SmsTransceiver.getInstance();
