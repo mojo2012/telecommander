@@ -7,7 +7,8 @@ import java.util.TimerTask;
 
 import android.os.Looper;
 import android.util.Log;
-import at.spot.a1telecommander.pt32.IPT32BoxListener.PT32State;
+import at.spot.a1telecommander.pt32.IPT32BoxListener.PT32TransactionErrorReason;
+import at.spot.a1telecommander.pt32.IPT32BoxListener.PT32TransactionMode;
 import at.spot.a1telecommander.settings.A1TelecommanderSettings;
 import at.spot.a1telecommander.sms.ISmsMessageListener;
 import at.spot.a1telecommander.sms.SmsTransceiver;
@@ -15,28 +16,32 @@ import at.spot.a1telecommander.sms.SmsTransceiver;
 public class PT32Interface implements ISmsMessageListener,
 		IThermostatInterface {
 
-	static PT32Interface	instance				= null;
-	final static String		TAG						= "A1Telecommander/PT32Intertface";
+	static final String			MESSAGE_NOT_ACCEPTED	= "Noakcept";
 
-	A1TelecommanderSettings	settings				= A1TelecommanderSettings.getInstance();
-	SmsTransceiver			smsTransceiver			= null;
+	static PT32Interface		instance				= null;
+	final static String			TAG						= "A1Telecommander/PT32Intertface";
 
-	int						signalStrength			= -1;
-	boolean					isHeatingOn				= false;
-	HeatingMode				heatingMode				= HeatingMode.Unknown;
-	float					heatingActualDegrees	= -1;
-	float					heatingRequiredDegrees	= -1;
+	A1TelecommanderSettings		settings				= A1TelecommanderSettings.getInstance();
+	SmsTransceiver				smsTransceiver			= null;
 
-	String					lastAnswer				= "";
+	int							signalStrength			= -1;
+	boolean						isHeatingOn				= false;
+	HeatingMode					heatingMode				= HeatingMode.Unknown;
+	float						heatingActualDegrees	= -1;
 
-	Timer					timer					= null;
-	boolean					canceledTimer			= false;
-	int						timeout					= 300000;
-	public boolean			canceled				= false;
+	float						heatingRequiredDegrees	= -1;
 
-	PT32State				pendingState			= PT32State.Idle;
-	boolean					pendingStateSuccess		= false;
-	boolean					pendingRequests			= false;
+	String						lastAnswer				= "";
+
+	Timer						timer					= null;
+	boolean						canceledTimer			= false;
+	int							timeout					= 300000;
+	public boolean				canceled				= false;
+
+	PT32TransactionMode			pendingState			= PT32TransactionMode.Idle;
+	PT32TransactionErrorReason	pendingTransactionError	= null;
+	boolean						pendingStateSuccess		= false;
+	boolean						pendingRequests			= false;
 
 	private PT32Interface() {
 		smsTransceiver = SmsTransceiver.getInstance();
@@ -56,7 +61,7 @@ public class PT32Interface implements ISmsMessageListener,
 	}
 
 	public void SetHeatingMode(String mode) {
-		pendingState = PT32State.HeatingModeSet;
+		pendingState = PT32TransactionMode.SetHeating;
 
 		smsTransceiver.listenForMessage(this, settings.telephoneNumber);
 		smsTransceiver.sendShortMessage(settings.telephoneNumber, mode);
@@ -65,7 +70,7 @@ public class PT32Interface implements ISmsMessageListener,
 	}
 
 	public void SetHeatingTemperature(int degrees) {
-		pendingState = PT32State.TemperatureSet;
+		pendingState = PT32TransactionMode.SetTemperature;
 
 		smsTransceiver.listenForMessage(this, settings.telephoneNumber);
 		smsTransceiver.sendShortMessage(settings.telephoneNumber, "temp " + degrees);
@@ -115,7 +120,8 @@ public class PT32Interface implements ISmsMessageListener,
 						break;
 					case 3: // heating mode
 						// if (!key.toLowerCase().equals("set"))
-						// throw new Exception("This is not the answer SMS!");
+						// throw new
+						// Exception("This is not the answer SMS!");
 
 						heatingMode = HeatingMode.valueOf(toCapitalString(value.trim()));
 						break;
@@ -143,9 +149,14 @@ public class PT32Interface implements ISmsMessageListener,
 		if (!pendingRequests) {
 			pendingStateSuccess = true;
 
+			if (message.contains(MESSAGE_NOT_ACCEPTED)) {
+				pendingStateSuccess = false;
+				pendingTransactionError = PT32TransactionErrorReason.CommandNotAccepted;
+			}
+
 			for (IPT32BoxListener listener : stateListeners) {
 				if (listener != null)
-					listener.onStateChanged(pendingState, pendingStateSuccess);
+					listener.onStateChanged(pendingState, pendingStateSuccess, pendingTransactionError);
 			}
 		}
 
@@ -162,6 +173,7 @@ public class PT32Interface implements ISmsMessageListener,
 
 	private void resetPendingState() {
 		pendingStateSuccess = false;
+		pendingTransactionError = null;
 	}
 
 	boolean isFullUpdateComplete() {
@@ -213,7 +225,13 @@ public class PT32Interface implements ISmsMessageListener,
 	void cancelPendingUpdate() {
 		resetPendingState();
 
-		Looper.prepare();
+		try {
+			if (Looper.myLooper() == null)
+				Looper.prepare();
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 
 		// onStateChanged();
 		canceled = true;
@@ -226,9 +244,31 @@ public class PT32Interface implements ISmsMessageListener,
 		// "A1 MatikBox antwortet nicht! Bitte versuchen Sie es später noch einmal.",
 		// Toast.LENGTH_LONG).show();
 
+		pendingTransactionError = PT32TransactionErrorReason.Timeout;
+
 		for (IPT32BoxListener listener : stateListeners) {
 			if (listener != null)
-				listener.onStateChanged(pendingState, pendingStateSuccess);
+				listener.onStateChanged(pendingState, pendingStateSuccess, pendingTransactionError);
 		}
+	}
+
+	public int getSignalStrength() {
+		return this.signalStrength;
+	}
+
+	public boolean isHeatingOn() {
+		return this.isHeatingOn;
+	}
+
+	public HeatingMode getHeatingMode() {
+		return this.heatingMode;
+	}
+
+	public float getHeatingActualDegrees() {
+		return this.heatingActualDegrees;
+	}
+
+	public float getHeatingRequiredDegrees() {
+		return this.heatingRequiredDegrees;
 	}
 }

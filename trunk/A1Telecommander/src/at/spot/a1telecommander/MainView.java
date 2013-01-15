@@ -146,8 +146,8 @@ public class MainView extends Activity implements IPT32BoxListener {
 
 		seekBar.setMax(36);
 
-		if (settings.getHeatingDegrees() > -1)
-			seekBar.setProgress(settings.getHeatingDegrees());
+		if (pt32Interface.getHeatingRequiredDegrees() > -1)
+			seekBar.setProgress((int) pt32Interface.getHeatingRequiredDegrees());
 		else
 			seekBar.setProgress(15);
 
@@ -275,19 +275,25 @@ public class MainView extends Activity implements IPT32BoxListener {
 	}
 
 	@Override
-	public void onStateChanged(PT32State state, boolean success) {
+	public void onStateChanged(PT32TransactionMode state, boolean success, PT32TransactionErrorReason errorReason) {
 		loadingDialog.dismiss();
 
 		String msg = "";
 
 		if (success) {
-			if (state == PT32State.HeatingModeSet) {
+			if (state == PT32TransactionMode.SetHeating) {
 				msg = "Der Heizungsmodus wurde erfolgreich eingestellt!";
-			} else if (state == PT32State.TemperatureSet) {
+			} else if (state == PT32TransactionMode.SetTemperature) {
 				msg = "Die Temperatur wurde erfolgreich eingestellt!";
 			}
 		} else {
-			msg = "Es ist ein Fehler aufgetreten (das Gerät antwortet nicht)";
+			String reason = "das Gerät antwortet nicht";
+
+			if (errorReason == PT32TransactionErrorReason.CommandNotAccepted) {
+				reason = "der Befehl wurde nicht akzeptiert";
+			}
+
+			msg = "Es ist ein Fehler aufgetreten (" + reason + ")";
 		}
 
 		Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
