@@ -134,7 +134,7 @@ public class MainView extends Activity implements IPT32BoxListener {
 		String status = "Ist-Temp.: " + actualTemp + "\n" +
 				"Soll-Temp.: " + requiredTemp + "\n" +
 				"Signalst.: " + signalStrength + "\n" +
-				"Modus: " + signalStrength + "\n" +
+				"Modus: " + mode + "\n" +
 				"Stand: " + updateDate;
 
 		builder.setTitle("Aktueller Status");
