@@ -1,5 +1,6 @@
 package at.spot.a1telecommander;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,6 +114,7 @@ public class MainView extends Activity implements IPT32BoxListener {
 		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
 		final String unknown = "<unbekannt>";
+		SimpleDateFormat sdfDateFormat = new SimpleDateFormat("dd.MM.yyyy hh:mm");
 
 		String actualTemp = pt32Interface.getHeatingActualDegrees() + "";
 		String requiredTemp = pt32Interface.getHeatingRequiredDegrees() + "";
@@ -128,7 +130,9 @@ public class MainView extends Activity implements IPT32BoxListener {
 			signalStrength = unknown;
 		if (mode.equals("Unknown"))
 			mode = unknown;
-		if (updateDate.equals("null"))
+		if (pt32Interface.getLastSuccessfulUpdate() != null)
+			updateDate = sdfDateFormat.format(pt32Interface.getLastSuccessfulUpdate());
+		else
 			updateDate = unknown;
 
 		String status = "Ist-Temp.: " + actualTemp + "\n" +
@@ -139,7 +143,7 @@ public class MainView extends Activity implements IPT32BoxListener {
 
 		builder.setTitle("Aktueller Status");
 		builder.setMessage(status);
-		builder.setCancelable(false);
+		// builder.setCancelable(false);
 		builder.setPositiveButton("OK", null);
 
 		builder.show();
@@ -233,6 +237,7 @@ public class MainView extends Activity implements IPT32BoxListener {
 
 		loadingDialog.setTitle(title);
 		loadingDialog.setMessage(text);
+		loadingDialog.setCancelable(false);
 
 		return loadingDialog;
 	}
