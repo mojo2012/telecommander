@@ -36,7 +36,7 @@ public class MainView extends Activity implements IPT32BoxListener {
 
 	Button					heatingSetModeButton		= null;
 	Button					heatingSetTemperatureButton	= null;
-	Button					requestStatusUpdateButton	= null;
+	Button					showStatusButton			= null;
 
 	ImageView				logo						= null;
 
@@ -66,7 +66,7 @@ public class MainView extends Activity implements IPT32BoxListener {
 	public void initGuiWidgets() {
 		heatingSetModeButton = (Button) findViewById(R.id.HeatingSetMode);
 		heatingSetTemperatureButton = (Button) findViewById(R.id.HeatingSetTemperature);
-		requestStatusUpdateButton = (Button) findViewById(R.id.RequestStatusUpdateButton);
+		showStatusButton = (Button) findViewById(R.id.RequestStatusUpdateButton);
 		logo = (ImageView) findViewById(R.id.Logo);
 	}
 
@@ -90,10 +90,10 @@ public class MainView extends Activity implements IPT32BoxListener {
 			}
 		});
 
-		requestStatusUpdateButton.setOnClickListener(new OnClickListener() {
+		showStatusButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
+				showStatusDialog();
 			}
 		});
 
@@ -107,6 +107,42 @@ public class MainView extends Activity implements IPT32BoxListener {
 				startActivity(i);
 			}
 		});
+	}
+
+	private void showStatusDialog() {
+		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+		final String unknown = "<unbekannt>";
+
+		String actualTemp = pt32Interface.getHeatingActualDegrees() + "";
+		String requiredTemp = pt32Interface.getHeatingRequiredDegrees() + "";
+		String signalStrength = pt32Interface.getSignalStrength() + "";
+		String mode = pt32Interface.getHeatingMode().toString();
+		String updateDate = pt32Interface.getLastSuccessfulUpdate() + "";
+
+		if (actualTemp.equals("-1.0"))
+			actualTemp = unknown;
+		if (requiredTemp.equals("-1.0"))
+			requiredTemp = unknown;
+		if (signalStrength.equals("-1"))
+			signalStrength = unknown;
+		if (mode.equals("Unknown"))
+			mode = unknown;
+		if (updateDate.equals("null"))
+			updateDate = unknown;
+
+		String status = "Ist-Temp.: " + actualTemp + "\n" +
+				"Soll-Temp.: " + requiredTemp + "\n" +
+				"Signalst.: " + signalStrength + "\n" +
+				"Modus: " + signalStrength + "\n" +
+				"Stand: " + updateDate;
+
+		builder.setTitle("Aktueller Status");
+		builder.setMessage(status);
+		builder.setCancelable(false);
+		builder.setPositiveButton("OK", null);
+
+		builder.show();
 	}
 
 	private void showHeatingModeDialog() {
@@ -147,11 +183,13 @@ public class MainView extends Activity implements IPT32BoxListener {
 		seekBar.setMax((int) PT32Interface.MAXIMUM_HEATING_TEMPERATURE - seekBarMinValue);
 
 		if (pt32Interface.getHeatingRequiredDegrees() > -1)
-			seekBar.setProgress((int) pt32Interface.getHeatingRequiredDegrees());
+			seekBar.setProgress((int) (pt32Interface.getHeatingRequiredDegrees()
+					- PT32Interface.MINIMUM_HEATING_TEMPERATURE));
 		else
-			seekBar.setProgress((int) PT32Interface.DEFAULT_HEATING_TEMPERATURE);
+			seekBar.setProgress((int) (PT32Interface.DEFAULT_HEATING_TEMPERATURE
+					- PT32Interface.MINIMUM_HEATING_TEMPERATURE));
 
-		tempLabel.setText("Temperatur: " + seekBar.getProgress());
+		tempLabel.setText("Temperatur: " + (int) (seekBar.getProgress() + PT32Interface.MINIMUM_HEATING_TEMPERATURE));
 
 		seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 			@Override
