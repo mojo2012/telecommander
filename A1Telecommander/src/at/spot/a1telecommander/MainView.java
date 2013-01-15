@@ -114,7 +114,7 @@ public class MainView extends Activity implements IPT32BoxListener {
 		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
 		final String unknown = "<unbekannt>";
-		SimpleDateFormat sdfDateFormat = new SimpleDateFormat("dd.MM.yyyy hh:mm");
+		SimpleDateFormat sdfDateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
 		String actualTemp = pt32Interface.getHeatingActualDegrees() + "";
 		String requiredTemp = pt32Interface.getHeatingRequiredDegrees() + "";
