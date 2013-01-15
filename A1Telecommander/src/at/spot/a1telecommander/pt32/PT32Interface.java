@@ -1,5 +1,7 @@
 package at.spot.a1telecommander.pt32;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Timer;
@@ -15,6 +17,10 @@ import at.spot.a1telecommander.sms.SmsTransceiver;
 
 public class PT32Interface implements ISmsMessageListener,
 		IThermostatInterface {
+
+	public void setLastSuccessfulUpdate(Date lastSuccessfulUpdate) {
+		this.lastSuccessfulUpdate = lastSuccessfulUpdate;
+	}
 
 	static final String			MESSAGE_NOT_ACCEPTED		= "Noakcept";
 	public static final float	MINIMUM_HEATING_TEMPERATURE	= 10;
@@ -45,6 +51,7 @@ public class PT32Interface implements ISmsMessageListener,
 	PT32TransactionErrorReason	pendingTransactionError		= null;
 	boolean						pendingStateSuccess			= false;
 	boolean						pendingRequests				= false;
+	Date						lastSuccessfulUpdate		= null;
 
 	private PT32Interface() {
 		smsTransceiver = SmsTransceiver.getInstance();
@@ -151,6 +158,7 @@ public class PT32Interface implements ISmsMessageListener,
 
 		if (!pendingRequests) {
 			pendingStateSuccess = true;
+			lastSuccessfulUpdate = Calendar.getInstance().getTime();
 
 			if (message.contains(MESSAGE_NOT_ACCEPTED)) {
 				pendingStateSuccess = false;
@@ -273,5 +281,9 @@ public class PT32Interface implements ISmsMessageListener,
 
 	public float getHeatingRequiredDegrees() {
 		return this.heatingRequiredDegrees;
+	}
+
+	public Date getLastSuccessfulUpdate() {
+		return this.lastSuccessfulUpdate;
 	}
 }

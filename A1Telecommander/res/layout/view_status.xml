@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/MainLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFF"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="25dp"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:contentDescription="A1 logo"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:maxHeight="32dp"
+            android:maxWidth="32dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/a1_logo_neu" >
+        </ImageView>
+
+        <Button
+            android:id="@+id/HeatingSetMode"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:drawableTop="@drawable/settings"
+            android:text="@string/heating_set_mode" 
+            android:textColor="@android:color/primary_text_light" />
+
+        <Button
+            android:id="@+id/HeatingSetTemperature"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:drawableTop="@drawable/heating"
+            android:text="@string/heating_set_temperature" 
+            android:textColor="@android:color/primary_text_light" />
+
+        <Button
+            android:id="@+id/RequestStatusUpdateButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:drawableTop="@drawable/status"
+            android:text="@string/heating_request_status" 
+            android:textColor="@android:color/primary_text_light" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center" >
+
+        <ImageView
+            android:id="@+id/Logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:contentDescription="spOt Logo"
+            android:maxHeight="30dp"
+            android:scaleType="matrix"
+            android:src="@drawable/spot_logo" />
+    </RelativeLayout>
+
+</RelativeLayout>
