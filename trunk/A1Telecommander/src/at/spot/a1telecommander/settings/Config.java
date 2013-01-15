@@ -5,20 +5,20 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import at.spot.a1telecommander.pt32.IThermostatInterface.HeatingMode;
 
-public class A1TelecommanderSettings {
-	final static String						TAG				= "A1Telecommander/A1TelecommanderSettings";
+public class Config {
+	final static String		TAG				= "A1Telecommander/Settings";
 
-	private static A1TelecommanderSettings	instance		= null;
-	private static String					PREFS_NAME		= "A1Telecommander";
+	private static Config	instance		= null;
+	private static String	PREFS_NAME		= "A1Telecommander";
 
-	public Context							appContext		= null;
-	SharedPreferences						preferences		= null;
+	public Context			appContext		= null;
+	SharedPreferences		preferences		= null;
 
-	// settings
-	public String							telephoneNumber	= "";
+	// Settings
+	public String			telephoneNumber	= "";
 
-	public HeatingMode						heatingMode		= HeatingMode.Unknown;
-	public int								heatingDegrees	= -1;
+	public HeatingMode		heatingMode		= HeatingMode.Unknown;
+	public int				heatingDegrees	= -1;
 
 	public String getTelephoneNumber() {
 		return this.telephoneNumber;
@@ -32,7 +32,7 @@ public class A1TelecommanderSettings {
 		return this.heatingDegrees;
 	}
 
-	private A1TelecommanderSettings(Context context) {
+	private Config(Context context) {
 		appContext = context;
 
 		preferences = appContext.getSharedPreferences(PREFS_NAME, 0);
@@ -40,13 +40,13 @@ public class A1TelecommanderSettings {
 		loadSettings();
 	}
 
-	public static A1TelecommanderSettings getInstance() {
+	public static Config getInstance() {
 		return instance;
 	}
 
-	public static A1TelecommanderSettings getInstance(Context context) {
+	public static Config getInstance(Context context) {
 		if (instance == null)
-			instance = new A1TelecommanderSettings(context);
+			instance = new Config(context);
 
 		return instance;
 	}

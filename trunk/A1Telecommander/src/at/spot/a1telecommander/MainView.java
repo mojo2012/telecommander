@@ -29,23 +29,23 @@ import android.widget.Toast;
 import at.spot.a1telecommander.pt32.IPT32BoxListener;
 import at.spot.a1telecommander.pt32.IThermostatInterface.HeatingMode;
 import at.spot.a1telecommander.pt32.PT32Interface;
-import at.spot.a1telecommander.settings.A1TelecommanderSettings;
+import at.spot.a1telecommander.settings.Config;
 import at.spot.a1telecommander.ui.util.ViewHelper;
 
 public class MainView extends Activity implements IPT32BoxListener {
-	final static String		TAG							= "A1Telecommander/MainView";
+	final static String	TAG							= "A1Telecommander/MainView";
 
-	Button					heatingSetModeButton		= null;
-	Button					heatingSetTemperatureButton	= null;
-	Button					showStatusButton			= null;
+	Button				heatingSetModeButton		= null;
+	Button				heatingSetTemperatureButton	= null;
+	Button				showStatusButton			= null;
 
-	ImageView				logo						= null;
+	ImageView			logo						= null;
 
-	A1TelecommanderSettings	settings					= null;
+	Config				settings					= null;
 
-	PT32Interface			pt32Interface				= null;
+	PT32Interface		pt32Interface				= null;
 
-	ProgressDialog			loadingDialog				= null;
+	ProgressDialog		loadingDialog				= null;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -56,7 +56,7 @@ public class MainView extends Activity implements IPT32BoxListener {
 		initGuiWidgets();
 		initGuiWidgetEventMethods();
 
-		settings = A1TelecommanderSettings.getInstance(getBaseContext());
+		settings = Config.getInstance(getBaseContext());
 
 		checkDefaultSettings();
 
