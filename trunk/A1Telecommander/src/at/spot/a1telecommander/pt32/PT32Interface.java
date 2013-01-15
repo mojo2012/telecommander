@@ -18,10 +18,6 @@ import at.spot.a1telecommander.sms.SmsTransceiver;
 public class PT32Interface implements ISmsMessageListener,
 		IThermostatInterface {
 
-	public void setLastSuccessfulUpdate(Date lastSuccessfulUpdate) {
-		this.lastSuccessfulUpdate = lastSuccessfulUpdate;
-	}
-
 	static final String			MESSAGE_NOT_ACCEPTED		= "Noakcept";
 	public static final float	MINIMUM_HEATING_TEMPERATURE	= 10;
 	public static final float	MAXIMUM_HEATING_TEMPERATURE	= 39;
@@ -32,13 +28,6 @@ public class PT32Interface implements ISmsMessageListener,
 
 	Config						settings					= Config.getInstance();
 	SmsTransceiver				smsTransceiver				= null;
-
-	int							signalStrength				= -1;
-	boolean						isHeatingOn					= false;
-	HeatingMode					heatingMode					= HeatingMode.Unknown;
-	float						heatingActualDegrees		= -1;
-
-	float						heatingRequiredDegrees		= -1;
 
 	String						lastAnswer					= "";
 
@@ -51,7 +40,6 @@ public class PT32Interface implements ISmsMessageListener,
 	PT32TransactionErrorReason	pendingTransactionError		= null;
 	boolean						pendingStateSuccess			= false;
 	boolean						pendingRequests				= false;
-	Date						lastSuccessfulUpdate		= null;
 
 	private PT32Interface() {
 		smsTransceiver = SmsTransceiver.getInstance();
@@ -119,24 +107,24 @@ public class PT32Interface implements ISmsMessageListener,
 			try {
 				switch (x) {
 					case 0: // required temperature (float value)
-						heatingRequiredDegrees = Float.parseFloat(value.trim());
+						settings.setHeatingDegreesRequired(Float.parseFloat(value.trim()));
 						break;
 					case 1: // Actual temperature (float value)
-						heatingActualDegrees = Float.parseFloat(value.trim());
+						settings.setHeatingDegreesActual(Float.parseFloat(value.trim()));
 						break;
 					case 2: // heating status (on, off)
 						// Vypnuto
-						isHeatingOn = value.trim().toLowerCase(Locale.GERMAN).equals("on");
+						settings.setHeatingOn(value.trim().toLowerCase(Locale.GERMAN).equals("on"));
 						break;
 					case 3: // heating mode
 						// if (!key.toLowerCase().equals("set"))
 						// throw new
 						// Exception("This is not the answer SMS!");
 
-						heatingMode = HeatingMode.valueOf(toCapitalString(value.trim()));
+						settings.setHeatingMode(HeatingMode.valueOf(toCapitalString(value.trim())));
 						break;
 					case 4: // Signal strength (0=no signal; 1=weak; 5=good)
-						signalStrength = Integer.parseInt(value.trim());
+						settings.setSignalStrenth(Integer.parseInt(value.trim()));
 						break;
 				}
 			} catch (Exception ex) {
@@ -158,7 +146,8 @@ public class PT32Interface implements ISmsMessageListener,
 
 		if (!pendingRequests) {
 			pendingStateSuccess = true;
-			lastSuccessfulUpdate = Calendar.getInstance().getTime();
+			settings.setLastUpdate(Calendar.getInstance().getTime());
+			settings.saveSettings();
 
 			if (message.contains(MESSAGE_NOT_ACCEPTED)) {
 				pendingStateSuccess = false;
@@ -264,34 +253,26 @@ public class PT32Interface implements ISmsMessageListener,
 	}
 
 	public int getSignalStrength() {
-		return this.signalStrength;
+		return settings.getSignalStrenth();
 	}
 
 	public boolean isHeatingOn() {
-		return this.isHeatingOn;
+		return settings.isHeatingOn();
 	}
 
 	public HeatingMode getHeatingMode() {
-		return this.heatingMode;
+		return settings.getHeatingMode();
 	}
 
 	public float getHeatingActualDegrees() {
-		return this.heatingActualDegrees;
+		return settings.getHeatingDegreesActual();
 	}
 
 	public float getHeatingRequiredDegrees() {
-		return this.heatingRequiredDegrees;
+		return settings.getHeatingDegreesRequired();
 	}
 
 	public Date getLastSuccessfulUpdate() {
-		return this.lastSuccessfulUpdate;
-	}
-
-	public void saveValue() {
-
-	}
-
-	public void loadValues() {
-
+		return settings.getLastUpdate();
 	}
 }
