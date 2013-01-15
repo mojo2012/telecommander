@@ -22,7 +22,7 @@ public class ViewHelper {
 		dialog.setContentView(R.layout.view_dialogbox);
 		dialog.setTitle(caption);
 		dialog.setCancelable(true);
-		// there are a lot of settings, for dialog, check them all out!
+		// there are a lot of Settings, for dialog, check them all out!
 
 		// set up text
 		TextView textView = (TextView) dialog.findViewById(R.id.dialog_text);

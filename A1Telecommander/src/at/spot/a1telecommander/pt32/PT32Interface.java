@@ -11,7 +11,7 @@ import android.os.Looper;
 import android.util.Log;
 import at.spot.a1telecommander.pt32.IPT32BoxListener.PT32TransactionErrorReason;
 import at.spot.a1telecommander.pt32.IPT32BoxListener.PT32TransactionMode;
-import at.spot.a1telecommander.settings.A1TelecommanderSettings;
+import at.spot.a1telecommander.settings.Config;
 import at.spot.a1telecommander.sms.ISmsMessageListener;
 import at.spot.a1telecommander.sms.SmsTransceiver;
 
@@ -30,7 +30,7 @@ public class PT32Interface implements ISmsMessageListener,
 	static PT32Interface		instance					= null;
 	final static String			TAG							= "A1Telecommander/PT32Intertface";
 
-	A1TelecommanderSettings		settings					= A1TelecommanderSettings.getInstance();
+	Config						settings					= Config.getInstance();
 	SmsTransceiver				smsTransceiver				= null;
 
 	int							signalStrength				= -1;
@@ -251,7 +251,7 @@ public class PT32Interface implements ISmsMessageListener,
 
 		// Toast
 		// .makeText(
-		// settings.appContext,
+		// Settings.appContext,
 		// "A1 MatikBox antwortet nicht! Bitte versuchen Sie es später noch einmal.",
 		// Toast.LENGTH_LONG).show();
 
@@ -285,5 +285,13 @@ public class PT32Interface implements ISmsMessageListener,
 
 	public Date getLastSuccessfulUpdate() {
 		return this.lastSuccessfulUpdate;
+	}
+
+	public void saveValue() {
+
+	}
+
+	public void loadValues() {
+
 	}
 }
