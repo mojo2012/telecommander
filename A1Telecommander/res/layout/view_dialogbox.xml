@@ -14,10 +14,10 @@
 
 		<ImageView
 		    android:id="@+id/ImageView01"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:maxHeight="@dimen/icon_32"
-		    android:maxWidth="@dimen/icon_32"
+		    android:layout_width="@dimen/icon_48"
+		    android:layout_height="@dimen/icon_48"
+		    android:maxHeight="@dimen/icon_48"
+		    android:maxWidth="@dimen/icon_48"
 		    android:src="@drawable/info" >
 
 </ImageView>
