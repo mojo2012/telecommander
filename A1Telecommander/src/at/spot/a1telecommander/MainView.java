@@ -7,10 +7,12 @@ import java.util.List;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.telephony.PhoneNumberUtils;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -80,21 +82,33 @@ public class MainView extends Activity implements IPT32BoxListener {
 		heatingSetModeButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				showHeatingModeDialog();
+				if (settings.isPhoneNumberSet()) {
+					showHeatingModeDialog();
+				} else {
+					checkDefaultSettings();
+				}
 			}
 		});
 
 		heatingSetTemperatureButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				showSetTemperatureDialog();
+				if (settings.isPhoneNumberSet()) {
+					showSetTemperatureDialog();
+				} else {
+					checkDefaultSettings();
+				}
 			}
 		});
 
 		showStatusButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				showStatusDialog();
+				if (settings.isPhoneNumberSet()) {
+					showStatusDialog();
+				} else {
+					checkDefaultSettings();
+				}
 			}
 		});
 
@@ -165,6 +179,28 @@ public class MainView extends Activity implements IPT32BoxListener {
 			public void onClick(DialogInterface dialog, int which) {
 				pt32Interface.SetHeatingMode(values.get(which));
 				progressDialog.show();
+			}
+		});
+
+		builder.show();
+	}
+
+	private void showResetDialog() {
+		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+		builder.setTitle("Einstellungen zurücksetzen");
+		builder.setMessage("Alle Einstellungen werden gelöscht und die Anwendung wird beendet.");
+		builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				settings.resetSettings();
+				finish();
+				android.os.Process.killProcess(android.os.Process.myPid());
+			}
+		});
+
+		builder.setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				dialog.dismiss();
 			}
 		});
 
@@ -250,8 +286,8 @@ public class MainView extends Activity implements IPT32BoxListener {
 	}
 
 	void checkDefaultSettings() {
-		if (settings.telephoneNumber == null | settings.telephoneNumber.equals("")) {
-			showEnterTelNumberDialog("+43");
+		if (!settings.isPhoneNumberSet()) {
+			showEnterTelNumberDialog("");
 
 			ViewHelper.showDialogBox(
 					"A1 Telecommander",
@@ -267,9 +303,7 @@ public class MainView extends Activity implements IPT32BoxListener {
 				showEnterTelNumberDialog(settings.telephoneNumber);
 				break;
 			case R.id.reset_settings:
-				settings.resetSettings();
-				finish();
-				android.os.Process.killProcess(android.os.Process.myPid());
+				showResetDialog();
 				break;
 			case R.id.info_dialog:
 				ViewHelper.showDialogBox(
@@ -289,6 +323,8 @@ public class MainView extends Activity implements IPT32BoxListener {
 	void showInputDialog(String title, String message, String defaultValue) {
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
+		final Context c = this;
+
 		alert.setTitle(title);
 		alert.setMessage(message);
 
@@ -302,16 +338,27 @@ public class MainView extends Activity implements IPT32BoxListener {
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				String value = input.getText().toString();
+				value = value.replace(" ", "");
+				value = value.replace("-", "");
 
-				settings.telephoneNumber = value;
-				settings.saveSettings();
+				if (PhoneNumberUtils.isGlobalPhoneNumber(value) && PhoneNumberUtils.isWellFormedSmsAddress(value)) {
+					settings.setTelephoneNumber(value);
+					settings.saveSettings();
+				} else {
+					// ViewHelper.showDialogBox(
+					// "Fehler",
+					// "Sie müssen eine gültige Telefonnummer eingeben, sonst kann diese App nicht sinnvoll verwendet werden.",
+					// c);
+
+					checkDefaultSettings();
+				}
 			}
 		});
 
-		alert.setNegativeButton("Cancel",
+		alert.setNegativeButton("Abbrechen",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
-						// Close the app?
+						checkDefaultSettings();
 					}
 				});
 

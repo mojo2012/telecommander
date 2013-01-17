@@ -2,6 +2,7 @@ package at.spot.a1telecommander.sms;
 
 import java.util.ArrayList;
 
+import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.util.Log;
@@ -63,11 +64,12 @@ public class SmsTransceiver {
 		Log.i(TAG, "INFO: receiving message from number " + sender + ", text=" + text);
 
 		for (SmsMessageListenerEntry entry : messageListeners) {
-			if (sender.equals(entry.number))
+			if (PhoneNumberUtils.compare(sender, entry.number)) {
 				if (entry.messageContains == null || text.contains(entry.messageContains)) {
 					informListeners(entry, sender, text);
 					break;
 				}
+			}
 		}
 	}
 

@@ -3,16 +3,16 @@
     <item
         android:id="@+id/set_tel_number"
         android:icon="@android:drawable/ic_menu_agenda"
-        android:title="Telefonnummer des PT32 GST setzen"/>
+        android:title="Telefonnummer setzen"/>
 
     <item
         android:id="@+id/reset_settings"
         android:icon="@android:drawable/ic_menu_delete"
-        android:title="Reset"/>
+        android:title="Einstellungen zurücksetzen"/>
 
     <item
         android:id="@+id/info_dialog"
         android:icon="@android:drawable/ic_menu_help"
-        android:title="Info"/>
+        android:title="Info anzeigen"/>
 
 </menu>

@@ -155,4 +155,7 @@ public class Config {
 		this.isHeatingOn = isHeatingOn;
 	}
 
+	public boolean isPhoneNumberSet() {
+		return (telephoneNumber != null & !telephoneNumber.equals(""));
+	}
 }
